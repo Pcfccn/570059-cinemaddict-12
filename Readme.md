@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Роман Крайнев](https://up.htmlacademy.ru/ecmascript/12/user/570059).
-* Наставник: `Неизвестно`.
+* Наставник: `Н`.
 
 ---
 
