@@ -1,4 +1,4 @@
-const siteFooterStatisticsTemplate = () => {
+const createFooterStatisticsTemplate = () => {
   return (
     `<section class="footer__statistics">
       <p>130 291 movies inside</p>
@@ -6,4 +6,4 @@ const siteFooterStatisticsTemplate = () => {
   );
 };
 
-export {siteFooterStatisticsTemplate};
+export {createFooterStatisticsTemplate};
