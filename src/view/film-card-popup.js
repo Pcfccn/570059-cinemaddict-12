@@ -1,34 +1,36 @@
+const getInputState = (value) => value ? ` checked` : ``;
+
+const createComments = (comments, commentCount) => {
+  const commentsTemplate = comments.map((currentComment) => {
+    return (
+      `<li class="film-details__comment">
+        <span class="film-details__comment-emoji">
+          <img src="./images/emoji/${currentComment.emogi}.png" width="55" height="55" alt="emoji-${currentComment.emogi}">
+        </span>
+        <div>
+          <p class="film-details__comment-text">${currentComment.message}</p>
+          <p class="film-details__comment-info">
+            <span class="film-details__comment-author">${currentComment.autor}</span>
+            <span class="film-details__comment-day">${currentComment.date}</span>
+            <button class="film-details__comment-delete">Delete</button>
+          </p>
+        </div>
+      </li>`);
+  }).join(` `);
+  return (
+    `<ul class="film-details__comments-list">
+      ${commentCount ? commentsTemplate : ``}
+    </ul>`
+  );
+};
+
 const createFilmCardPopupTemplate = (filmCard) => {
 
   const {movieTitle, originalMovieTitle, director, screenWriters, cast, poster, rating, dateOfRelease, duration,
-    country, filmGenres, description, ageRating, comments, commentCount} = filmCard;
+    country, filmGenres, description, ageRating, comments, commentCount, isInTheWatchlist, isWatched, isFavorite} = filmCard;
   const writers = screenWriters.join(`, `);
   const actors = cast.join(`, `);
   const genres = filmGenres.map((it) => `<span class="film-details__genre">${it}</span>`).join(` `);
-
-  const createComments = () => {
-    const commentsTemplate = comments.map((currentComment) => {
-      return (
-        `<li class="film-details__comment">
-          <span class="film-details__comment-emoji">
-            <img src="./images/emoji/${currentComment.emogi}.png" width="55" height="55" alt="emoji-${currentComment.emogi}">
-          </span>
-          <div>
-            <p class="film-details__comment-text">${currentComment.message}</p>
-            <p class="film-details__comment-info">
-              <span class="film-details__comment-author">${currentComment.autor}</span>
-              <span class="film-details__comment-day">${currentComment.date}</span>
-              <button class="film-details__comment-delete">Delete</button>
-            </p>
-          </div>
-        </li>`);
-    }).join(` `);
-    return (
-      `<ul class="film-details__comments-list">
-        ${commentCount ? commentsTemplate : ``}
-      </ul>`
-    );
-  };
 
   return (
     `<section class="film-details">
@@ -95,13 +97,13 @@ const createFilmCardPopupTemplate = (filmCard) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist"${getInputState(isInTheWatchlist)}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched"${getInputState(isWatched)}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite"${getInputState(isFavorite)}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -110,7 +112,7 @@ const createFilmCardPopupTemplate = (filmCard) => {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span></h3>
 
-              ${createComments()}
+              ${createComments(comments, commentCount)}
 
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>

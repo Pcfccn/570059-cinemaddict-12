@@ -9,7 +9,7 @@ import {createMainSortTemplate} from './view/main-sort.js';
 import {generateFilmCards} from './mock/film-card.js';
 import {getFilterElementCount, getTopRatedMovies, getTopCommentedMovies} from './mock/filter.js';
 import {FILM_COUNT_PER_STEP} from './constants';
-// import {createFilmCardPopupTemplate} from './view/film-card-popup.js';
+import {createFilmCardPopupTemplate} from './view/film-card-popup.js';
 
 
 const films = generateFilmCards();
@@ -69,4 +69,4 @@ render(filmsListExtraContainers[1], createFilmCardTemplate(topCommentedMovies[1]
 
 render(siteFooterElement, createFooterStatisticsTemplate());
 
-// render(document.body, createFilmCardPopupTemplate(films[0]));
+render(document.body, createFilmCardPopupTemplate(films[0]));
