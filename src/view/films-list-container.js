@@ -1,4 +1,4 @@
-const filmsWithFilmsListContainerTemplate = () => {
+const createFilmsListContainerTemplate = () => {
   return (
     `<section class="films">
       <section class="films-list">
@@ -9,4 +9,4 @@ const filmsWithFilmsListContainerTemplate = () => {
   );
 };
 
-export {filmsWithFilmsListContainerTemplate};
+export {createFilmsListContainerTemplate};
