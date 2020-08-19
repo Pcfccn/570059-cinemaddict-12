@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createFilmsListContainerTemplate = () => {
   return (
     `<section class="films">
@@ -9,4 +11,23 @@ const createFilmsListContainerTemplate = () => {
   );
 };
 
-export {createFilmsListContainerTemplate};
+export default class FilmsListContainerView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmsListContainerTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,7 +1,28 @@
+import {createElement} from "../utils";
+
 const createLoadMoreButonTemplate = () => {
   return (
     `<button class="films-list__show-more">Show more</button>`
   );
 };
 
-export {createLoadMoreButonTemplate};
+export default class LoadMoreButonView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createLoadMoreButonTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

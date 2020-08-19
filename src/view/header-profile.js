@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createHeaderProfileTemplate = () => {
   return (
     `<section class="header__profile profile">
@@ -8,3 +10,24 @@ const createHeaderProfileTemplate = () => {
 };
 
 export {createHeaderProfileTemplate};
+
+export default class HeaderProfileView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createHeaderProfileTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createFooterStatisticsTemplate = () => {
   return (
     `<section class="footer__statistics">
@@ -6,4 +8,23 @@ const createFooterStatisticsTemplate = () => {
   );
 };
 
-export {createFooterStatisticsTemplate};
+export default class FooterStatisticsnView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFooterStatisticsTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
