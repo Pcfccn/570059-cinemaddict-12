@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const getInputState = (value) => value ? ` checked` : ``;
 
 const createComments = (comments, commentCount) => {
@@ -150,4 +152,24 @@ const createFilmCardPopupTemplate = (filmCard) => {
   );
 };
 
-export {createFilmCardPopupTemplate};
+export default class FilmCardPopupView {
+  constructor(filmCard) {
+    this._element = null;
+    this._filmCard = filmCard;
+  }
+
+  getTemlate() {
+    return createFilmCardPopupTemplate(this._filmCard);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemlate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

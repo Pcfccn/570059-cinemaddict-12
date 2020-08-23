@@ -1,15 +1,16 @@
-import {createFilmCardTemplate} from './view/film-card';
-import {createFilmsListContainerTemplate} from './view/films-list-container.js';
-import {createFilmsListExtraContainerTemplate} from './view/films-list-extra-container.js';
-import {createFooterStatisticsTemplate} from './view/footer-statistic.js';
-import {createHeaderProfileTemplate} from './view/header-profile.js';
-import {createLoadMoreButonTemplate} from './view/load-more-button.js';
-import {createFilterTemplate} from './view/filter.js';
-import {createMainSortTemplate} from './view/main-sort.js';
+import FilmCardView from './view/film-card';
+import FilmsListContainerView from './view/films-list-container.js';
+import FilmsListExtraContainerView from './view/films-list-extra-container.js';
+import FooterStatisticsnView from './view/footer-statistic.js';
+import HeaderProfileView from './view/header-profile.js';
+import LoadMoreButonView from './view/load-more-button.js';
+import FilterView from './view/filter.js';
+import SortView from './view/main-sort.js';
 import {generateFilmCards} from './mock/film-card.js';
 import {getFilterElementCount, getTopRatedMovies, getTopCommentedMovies} from './mock/filter.js';
-import {FILM_COUNT_PER_STEP} from './constants';
-import {createFilmCardPopupTemplate} from './view/film-card-popup.js';
+import {FILM_COUNT_PER_STEP, extraContainersName, EXSTRA_MOVIES_COUNT} from './constants';
+import {renderElement} from './utils.js';
+import FilmCardPopupView from './view/film-card-popup.js';
 
 
 const films = generateFilmCards();
@@ -22,25 +23,52 @@ const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 
-const render = (container, element, place = `beforeEnd`) => {
-  container.insertAdjacentHTML(place, element);
+const renderFilm = (container, film) => {
+  const filmElement = new FilmCardView(film).getElement();
+  const filmPopupElement = new FilmCardPopupView(film).getElement();
+  const poster = filmElement.querySelector(`.film-card__poster`);
+  const comments = filmElement.querySelector(`.film-card__comments`);
+  const closeButton = filmPopupElement.querySelector(`.film-details__close-btn`);
+  const showPopup = () => {
+    renderElement(document.body, filmPopupElement);
+    document.addEventListener(`keydown`, onEscKeyDown);
+    closeButton.addEventListener(`click`, closePopup);
+    poster.removeEventListener(`click`, showPopup);
+    comments.removeEventListener(`click`, showPopup);
+  };
+  const closePopup = () => {
+    filmPopupElement.remove();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+    closeButton.removeEventListener(`click`, closePopup);
+    poster.addEventListener(`click`, showPopup);
+    comments.addEventListener(`click`, showPopup);
+  };
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      closePopup();
+    }
+  };
+  poster.addEventListener(`click`, showPopup);
+  comments.addEventListener(`click`, showPopup);
+  renderElement(container, filmElement);
 };
 
-render(siteHeaderElement, createHeaderProfileTemplate());
-render(siteMainElement, createFilterTemplate(filteredElementCount));
-render(siteMainElement, createMainSortTemplate());
-render(siteMainElement, createFilmsListContainerTemplate());
+renderElement(siteHeaderElement, new HeaderProfileView().getElement());
+renderElement(siteMainElement, new FilterView(filteredElementCount).getElement());
+renderElement(siteMainElement, new SortView().getElement());
+renderElement(siteMainElement, new FilmsListContainerView().getElement());
 
 const siteMainFilmsListContainer = siteMainElement.querySelector(`.films-list__container`);
 for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
-  render(siteMainFilmsListContainer, createFilmCardTemplate(films[i]));
+  renderFilm(siteMainFilmsListContainer, films[i]);
 }
 
 const siteMainFilmsList = siteMainElement.querySelector(`.films-list`);
 
 
 if (films.length > FILM_COUNT_PER_STEP) {
-  render(siteMainFilmsList, createLoadMoreButonTemplate());
+  renderElement(siteMainFilmsList, new LoadMoreButonView().getElement());
   const loadMoreButton = siteMainFilmsList.querySelector(`.films-list__show-more`);
 
   let renderedFilmCount = FILM_COUNT_PER_STEP;
@@ -48,7 +76,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
   loadMoreButton.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     films.slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-    .forEach((film) => render(siteMainFilmsListContainer, createFilmCardTemplate(film)));
+    .forEach((film) => renderFilm(siteMainFilmsListContainer, film));
     renderedFilmCount += FILM_COUNT_PER_STEP;
 
     if (renderedFilmCount > films.length) {
@@ -59,14 +87,22 @@ if (films.length > FILM_COUNT_PER_STEP) {
 
 
 const siteMainFilms = siteMainElement.querySelector(`.films`);
-render(siteMainFilms, createFilmsListExtraContainerTemplate());
 
-const filmsListExtraContainers = siteMainElement.querySelectorAll(`.films-list--extra .films-list__container`);
-render(filmsListExtraContainers[0], createFilmCardTemplate(topRatedMovies[0]));
-render(filmsListExtraContainers[0], createFilmCardTemplate(topRatedMovies[1]));
-render(filmsListExtraContainers[1], createFilmCardTemplate(topCommentedMovies[0]));
-render(filmsListExtraContainers[1], createFilmCardTemplate(topCommentedMovies[1]));
 
-render(siteFooterElement, createFooterStatisticsTemplate());
+const filmsListTopRatedSection = new FilmsListExtraContainerView(extraContainersName.TOP_RATED).getElement();
+const filmsListTopRatedContainer = filmsListTopRatedSection.querySelector(`.films-list__container`);
+for (let i = 0; i < EXSTRA_MOVIES_COUNT; i++) {
+  renderFilm(filmsListTopRatedContainer, topRatedMovies[i]);
+}
+renderElement(siteMainFilms, filmsListTopRatedSection);
 
-render(document.body, createFilmCardPopupTemplate(films[0]));
+
+const filmsListTopCommentedSection = new FilmsListExtraContainerView(extraContainersName.MOST_COMMENTED).getElement();
+const filmsListTopCommentedContainer = filmsListTopCommentedSection.querySelector(`.films-list__container`);
+for (let i = 0; i < EXSTRA_MOVIES_COUNT; i++) {
+  renderFilm(filmsListTopCommentedContainer, topCommentedMovies[i]);
+}
+renderElement(siteMainFilms, filmsListTopCommentedSection);
+
+
+renderElement(siteFooterElement, new FooterStatisticsnView().getElement());
