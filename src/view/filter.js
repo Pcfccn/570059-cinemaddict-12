@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createFilterTemplate = (filteredElementCount) => {
   return (
     `<nav class="main-navigation">
@@ -12,4 +14,24 @@ const createFilterTemplate = (filteredElementCount) => {
   );
 };
 
-export {createFilterTemplate};
+export default class FilterView {
+  constructor(filteredElementCount) {
+    this._element = null;
+    this._filteredElementCount = filteredElementCount;
+  }
+
+  getTemlate() {
+    return createFilterTemplate(this._filteredElementCount);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemlate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

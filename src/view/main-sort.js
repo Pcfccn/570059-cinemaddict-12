@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createMainSortTemplate = () => {
   return (
     `<ul class="sort">
@@ -8,4 +10,23 @@ const createMainSortTemplate = () => {
   );
 };
 
-export {createMainSortTemplate};
+export default class SortView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMainSortTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

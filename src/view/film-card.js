@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createFilmCardTemplate = (filmCard) => {
 
   const {movieTitle, poster, rating, year, duration, genre, shortDescription, commentCount, isInTheWatchlist, isWatched, isFavorite} = filmCard;
@@ -31,4 +33,24 @@ const createFilmCardTemplate = (filmCard) => {
   );
 };
 
-export {createFilmCardTemplate};
+export default class FilmCardView {
+  constructor(filmCard) {
+    this._element = null;
+    this._filmcard = filmCard;
+  }
+
+  getTemlate() {
+    return createFilmCardTemplate(this._filmcard);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemlate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

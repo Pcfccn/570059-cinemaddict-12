@@ -58,4 +58,17 @@ const ageRatings = [`0+`, `3+`, `7+`, `14+`, `16+`, `18+`, `21+`];
 
 const emojyes = [`smile`, `sleeping`, `puke`, `angry`];
 
-export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries, ageRatings, emojyes};
+const renderPosition = {
+  AFTER_BEGIN: `afterBegin`,
+  BEFORE_END: `beforeEnd`,
+};
+
+const extraContainersName = {
+  TOP_RATED: `Top rated`,
+  MOST_COMMENTED: `Most commented`,
+};
+
+const EXSTRA_MOVIES_COUNT = 2;
+
+export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
+  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT};
