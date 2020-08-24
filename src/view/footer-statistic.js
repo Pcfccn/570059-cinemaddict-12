@@ -1,20 +1,21 @@
 import {createElement} from "../utils";
 
-const createFooterStatisticsTemplate = () => {
+const createFooterStatisticsTemplate = (filmsTotalCounter) => {
   return (
     `<section class="footer__statistics">
-      <p>130 291 movies inside</p>
+      <p>${filmsTotalCounter} movies inside</p>
     </section>`
   );
 };
 
 export default class FooterStatisticsnView {
-  constructor() {
+  constructor(filmsTotalCounter) {
     this._element = null;
+    this._filmsTotalCounter = filmsTotalCounter;
   }
 
   getTemplate() {
-    return createFooterStatisticsTemplate();
+    return createFooterStatisticsTemplate(this._filmsTotalCounter);
   }
 
   getElement() {
