@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract";
 
 const createLoadMoreButonTemplate = () => {
   return (
@@ -6,23 +6,8 @@ const createLoadMoreButonTemplate = () => {
   );
 };
 
-export default class LoadMoreButonView {
-  constructor() {
-    this._element = null;
-  }
-
+export default class LoadMoreButonView extends AbstractView {
   getTemplate() {
     return createLoadMoreButonTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

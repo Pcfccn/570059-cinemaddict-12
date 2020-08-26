@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract";
 
 const createFooterStatisticsTemplate = (filmsTotalCounter) => {
   return (
@@ -8,24 +8,13 @@ const createFooterStatisticsTemplate = (filmsTotalCounter) => {
   );
 };
 
-export default class FooterStatisticsnView {
+export default class FooterStatisticsnView extends AbstractView {
   constructor(filmsTotalCounter) {
-    this._element = null;
+    super();
     this._filmsTotalCounter = filmsTotalCounter;
   }
 
   getTemplate() {
     return createFooterStatisticsTemplate(this._filmsTotalCounter);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

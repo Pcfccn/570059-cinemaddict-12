@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract";
 
 const createFilmCardTemplate = (filmCard) => {
 
@@ -33,24 +33,13 @@ const createFilmCardTemplate = (filmCard) => {
   );
 };
 
-export default class FilmCardView {
+export default class FilmCardView extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmcard = filmCard;
   }
 
-  getTemlate() {
+  getTemplate() {
     return createFilmCardTemplate(this._filmcard);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemlate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

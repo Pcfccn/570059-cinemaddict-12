@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -152,24 +152,13 @@ const createFilmCardPopupTemplate = (filmCard) => {
   );
 };
 
-export default class FilmCardPopupView {
+export default class FilmCardPopupView extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmCard = filmCard;
   }
 
-  getTemlate() {
+  getTemplate() {
     return createFilmCardPopupTemplate(this._filmCard);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemlate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
