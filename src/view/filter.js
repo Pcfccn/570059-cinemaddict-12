@@ -1,4 +1,3 @@
-import {createElement} from "../utils";
 import AbstractView from "./abstract";
 
 const createFilterTemplate = (filteredElementCount) => {
