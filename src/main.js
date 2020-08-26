@@ -11,7 +11,7 @@ import {getFilterElementCount, getTopRatedMovies, getTopCommentedMovies} from '.
 import {FILM_COUNT_PER_STEP, extraContainersName, EXSTRA_MOVIES_COUNT} from './constants';
 import FilmCardPopupView from './view/film-card-popup.js';
 import NoFilmsView from './view/no-films';
-import {render} from './utils/render';
+import {render, remove} from './utils/render';
 
 
 const films = generateFilmCards();
@@ -25,24 +25,20 @@ const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 
 const renderFilm = (container, film) => {
-  const filmElement = new FilmCardView(film).getElement();
-  const filmPopupElement = new FilmCardPopupView(film).getElement();
-  const poster = filmElement.querySelector(`.film-card__poster`);
-  const comments = filmElement.querySelector(`.film-card__comments`);
-  const closeButton = filmPopupElement.querySelector(`.film-details__close-btn`);
+  const filmCard = new FilmCardView(film);
+  const filmPopup = new FilmCardPopupView(film);
+  const closeButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
   const showPopup = () => {
-    render(document.body, filmPopupElement);
+    render(document.body, filmPopup);
     document.addEventListener(`keydown`, onEscKeyDown);
     closeButton.addEventListener(`click`, closePopup);
-    poster.removeEventListener(`click`, showPopup);
-    comments.removeEventListener(`click`, showPopup);
+    filmCard.removePosterAndCommentsClickHandler(showPopup);
   };
   const closePopup = () => {
-    filmPopupElement.remove();
+    remove(filmPopup);
     document.removeEventListener(`keydown`, onEscKeyDown);
     closeButton.removeEventListener(`click`, closePopup);
-    poster.addEventListener(`click`, showPopup);
-    comments.addEventListener(`click`, showPopup);
+    filmCard.setPosterAndCommentsClickHandler(showPopup);
   };
   const onEscKeyDown = (evt) => {
     if (evt.key === `Escape` || evt.key === `Esc`) {
@@ -50,9 +46,8 @@ const renderFilm = (container, film) => {
       closePopup();
     }
   };
-  poster.addEventListener(`click`, showPopup);
-  comments.addEventListener(`click`, showPopup);
-  render(container, filmElement);
+  filmCard.setPosterAndCommentsClickHandler(showPopup);
+  render(container, filmCard);
 };
 
 const renderFilmsOnTheBoard = (siteMainFilms, siteMainFilmsList) => {
