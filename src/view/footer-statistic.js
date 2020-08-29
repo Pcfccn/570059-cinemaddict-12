@@ -8,7 +8,7 @@ const createFooterStatisticsTemplate = (filmsTotalCounter) => {
   );
 };
 
-export default class FooterStatisticsnView extends AbstractView {
+export default class FooterStatisticsView extends AbstractView {
   constructor(filmsTotalCounter) {
     super();
     this._filmsTotalCounter = filmsTotalCounter;
