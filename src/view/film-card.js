@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract";
 
 const createFilmCardTemplate = (filmCard) => {
 
@@ -33,24 +33,31 @@ const createFilmCardTemplate = (filmCard) => {
   );
 };
 
-export default class FilmCardView {
+export default class FilmCardView extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmcard = filmCard;
+    this._callback = {};
+    this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
   }
 
-  getTemlate() {
+  getTemplate() {
     return createFilmCardTemplate(this._filmcard);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemlate());
-    }
-    return this._element;
+  _posterAndCommentsClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.posterAndCommentsClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setPosterAndCommentsClickHandler(callback) {
+    this._callback.posterAndCommentsClick = callback;
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._posterAndCommentsClickHandler);
+    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._posterAndCommentsClickHandler);
+  }
+
+  removePosterAndCommentsClickHandler() {
+    this.getElement().querySelector(`.film-card__poster`).removeEventListener(`click`, this._posterAndCommentsClickHandler);
+    this.getElement().querySelector(`.film-card__comments`).removeEventListener(`click`, this._posterAndCommentsClickHandler);
   }
 }
