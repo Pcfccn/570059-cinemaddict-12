@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -152,24 +152,29 @@ const createFilmCardPopupTemplate = (filmCard) => {
   );
 };
 
-export default class FilmCardPopupView {
+export default class FilmCardPopupView extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmCard = filmCard;
+    this._callback = {};
+    this._closeButtonHandler = this._closeButtonHandler.bind(this);
   }
 
-  getTemlate() {
+  getTemplate() {
     return createFilmCardPopupTemplate(this._filmCard);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemlate());
-    }
-    return this._element;
+  _closeButtonHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeButtonHandler();
   }
 
-  removeElement() {
-    this._element = null;
+  setCloseButtonHandler(callback) {
+    this._callback.closeButtonHandler = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonHandler);
+  }
+
+  removeCloseButtonHandler() {
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._closeButtonHandler);
   }
 }

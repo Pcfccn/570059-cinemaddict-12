@@ -1,5 +1,5 @@
 import {films, descriptionText, genres, months, actors, countries, ageRatings, emojyes, FILM_COUNT} from '../constants.js';
-import {getRandomInteger, getRandomArrayElement} from '../utils.js';
+import {getRandomInteger, getRandomArrayElement} from '../utils/common.js';
 
 const generateDescription = () => {
   const descriptionSentenсes = descriptionText.replace(/\r?\n/g, ``).split(`.`);
