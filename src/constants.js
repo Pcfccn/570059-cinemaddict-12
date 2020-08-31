@@ -27,7 +27,7 @@ In rutrum ac purus sit amet tempus`;
 
 const genres = [`Musical`, `Western`, `Drama`, `Comedy`, `Cartoon`, `Mystery`];
 
-const months = [`January`, `February`, `March`,	`April`, `June`, `July`, `September`, `November`, `December`];
+const months = [`January`, `February`, `March`,	`April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
 
 const actors = [`Leonardo DiCaprio`, `Chris Hemsworth`, `Bradley Cooper`, `Tom Cruise`,
   `Robert Downey Jr.`, `Jerome Allen`, `Adam Sandler`, `Vin diesel`, `Thomas Jeffrey Hanks`, `Dwayne Johnson`];
@@ -70,5 +70,11 @@ const extraContainersName = {
 
 const EXSTRA_MOVIES_COUNT = 2;
 
+const sortTypes = {
+  DEFAULT: `default`,
+  BY_DATE: `byDate`,
+  BY_RATING: `byRating`
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
-  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT};
+  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes};

@@ -1,7 +1,6 @@
 import FooterStatisticsView from './view/footer-statistic.js';
 import HeaderProfileView from './view/header-profile.js';
 import FilterView from './view/filter.js';
-import SortView from './view/main-sort.js';
 import {generateFilmCards} from './mock/film-card.js';
 import {getFilterElementCount} from './mock/filter.js';
 import {render} from './utils/render';
@@ -18,7 +17,6 @@ const siteFooterElement = document.querySelector(`.footer`);
 
 render(siteHeaderElement, new HeaderProfileView());
 render(siteMainElement, new FilterView(filteredElementCount));
-render(siteMainElement, new SortView());
 
 new MovieListPresenter(siteMainElement).init(films);
 
