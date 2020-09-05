@@ -131,9 +131,6 @@ export default class MovieListPresenter {
         }
       });
     }
-
-    this._renderTopRatedFilms(siteMainFilms, films);
-    this._renderTopCommentedFilms(siteMainFilms, films);
   }
 
 
@@ -148,6 +145,8 @@ export default class MovieListPresenter {
       render(siteMainFilmsList, this._noFilms);
     } else {
       this._renderFilmsOnTheBoard(this._films);
+      this._renderTopRatedFilms(siteMainFilms, films);
+      this._renderTopCommentedFilms(siteMainFilms, films);
     }
   }
 }
