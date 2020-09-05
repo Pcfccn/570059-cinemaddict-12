@@ -5,10 +5,9 @@ import {FILM_COUNT_PER_STEP, EXSTRA_MOVIES_COUNT, extraContainersName, sortTypes
 import LoadMoreButtonView from '../view/load-more-button';
 import FilmsListExtraContainerView from '../view/films-list-extra-container';
 import {getTopRatedMovies, getTopCommentedMovies} from '../mock/filter';
-import FilmCardView from '../view/film-card';
-import FilmCardPopupView from '../view/film-card-popup';
 import {sortDateDown, sortRatingDown} from '../utils/film';
 import SortView from '../view/main-sort';
+import FilmCardPresenter from './film-card';
 
 export default class MovieListPresenter {
   constructor(siteMainElement) {
@@ -66,28 +65,8 @@ export default class MovieListPresenter {
 
 
   _renderFilm(container, film) {
-    const filmCard = new FilmCardView(film);
-    const filmPopup = new FilmCardPopupView(film);
-    const showPopup = () => {
-      render(document.body, filmPopup);
-      document.addEventListener(`keydown`, onEscKeyDown);
-      filmPopup.setCloseButtonHandler(closePopup);
-      filmCard.removePosterAndCommentsClickHandler(showPopup);
-    };
-    const closePopup = () => {
-      remove(filmPopup);
-      document.removeEventListener(`keydown`, onEscKeyDown);
-      filmPopup.removeCloseButtonHandler(closePopup);
-      filmCard.setPosterAndCommentsClickHandler(showPopup);
-    };
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        closePopup();
-      }
-    };
-    filmCard.setPosterAndCommentsClickHandler(showPopup);
-    render(container, filmCard);
+    const filmCardPresenter = new FilmCardPresenter();
+    filmCardPresenter.init(container, film);
   }
 
   _renderTopRatedFilms(container, films) {

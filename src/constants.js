@@ -80,5 +80,10 @@ const HTMLTagName = {
   a: `A`
 };
 
+const keyboardKey = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
-  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName};
+  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName, keyboardKey};
