@@ -65,6 +65,8 @@ const generateComment = () => {
   };
 };
 
+const generateFakeId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateFilmCard = () => {
 
   const muvieNumber = getRandomInteger(0, films.length - 1);
@@ -82,6 +84,7 @@ const generateFilmCard = () => {
   const cast = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(actors));
 
   return {
+    id: generateFakeId(),
     movieTitle: films[muvieNumber].title,
     originalMovieTitle: films[muvieNumber].title,
     director: getRandomArrayElement(actors),
