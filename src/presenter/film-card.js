@@ -11,6 +11,9 @@ export default class FilmCardPresenter {
     this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
   }
 
   init(container, film) {
@@ -24,6 +27,9 @@ export default class FilmCardPresenter {
     this._filmPopup = new FilmCardPopupView(this._film);
 
     this._filmCard.setPosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);
+    this._filmCard.setWatchlistClickHandler(this._watchlistClickHandler);
+    this._filmCard.setWatchedClickHandler(this._watchedClickHandler);
+    this._filmCard.setFavoritesClickHandler(this._favoritesClickHandler);
 
     if (!previousFilmCard || !previousFilmPopup) {
       render(this._container, this._filmCard);
@@ -51,7 +57,7 @@ export default class FilmCardPresenter {
     render(document.body, this._filmPopup);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._filmPopup.setCloseButtonHandler(this._closeButtonClickHandler);
-    this._filmCard.removePosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);
+    this._filmCard.removeFilmCardClickHandlers();
   }
 
   _closePopup() {
@@ -59,6 +65,9 @@ export default class FilmCardPresenter {
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._filmPopup.removeCloseButtonHandler(this._closeButtonClickHandler);
     this._filmCard.setPosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);
+    this._filmCard.setWatchlistClickHandler(this._watchlistClickHandler);
+    this._filmCard.setWatchedClickHandler(this._watchedClickHandler);
+    this._filmCard.setFavoritesClickHandler(this._favoritesClickHandler);
   }
 
   _onEscKeyDown(evt) {
@@ -78,5 +87,17 @@ export default class FilmCardPresenter {
 
   _escKeyDownHandler(evt) {
     this._onEscKeyDown(evt);
+  }
+
+  _watchlistClickHandler() {
+    console.log(`hi man!`);
+  }
+
+  _watchedClickHandler() {
+
+  }
+
+  _favoritesClickHandler() {
+
   }
 }
