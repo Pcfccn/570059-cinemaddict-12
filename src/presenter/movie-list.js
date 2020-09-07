@@ -47,7 +47,7 @@ export default class MovieListPresenter {
   _filmChangeHandler(updatedFilm) {
     this._films = updateItem(this._films, updatedFilm);
     this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
-    this._filmPresenter[updatedFilm.id].init(updatedFilm);
+    this._filmPresenter[updatedFilm.id].init(this._siteMainFilmsListContainer, updatedFilm);
   }
 
 
@@ -125,9 +125,9 @@ export default class MovieListPresenter {
   _renderFilmsOnTheBoard(films) {
     const siteMainFilms = this._siteMainElement.querySelector(`.films`);
     const siteMainFilmsList = siteMainFilms.querySelector(`.films-list`);
-    const siteMainFilmsListContainer = siteMainFilmsList.querySelector(`.films-list__container`);
+    this._siteMainFilmsListContainer = siteMainFilmsList.querySelector(`.films-list__container`);
     for (let i = 0; i < Math.min(films.length, this._FILM_COUNT_PER_STEP); i++) {
-      this._renderFilm(siteMainFilmsListContainer, films[i]);
+      this._renderFilm(this._siteMainFilmsListContainer, films[i]);
     }
     if (films.length > this._FILM_COUNT_PER_STEP) {
       render(siteMainFilmsList, this._loadMoreButton);
@@ -136,7 +136,7 @@ export default class MovieListPresenter {
 
       this._loadMoreButton.setLoadMoreButtonHandler(() => {
         films.slice(renderedFilmCount, renderedFilmCount + this._FILM_COUNT_PER_STEP)
-        .forEach((film) => this._renderFilm(siteMainFilmsListContainer, film));
+        .forEach((film) => this._renderFilm(this._siteMainFilmsListContainer, film));
         renderedFilmCount += this._FILM_COUNT_PER_STEP;
 
         if (renderedFilmCount > films.length) {

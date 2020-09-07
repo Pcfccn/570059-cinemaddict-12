@@ -4,9 +4,10 @@ import {render, remove, replace} from "../utils/render";
 import {keyboardKey} from "../constants";
 
 export default class FilmCardPresenter {
-  constructor() {
+  constructor(changeData) {
     this._filmCard = null;
     this._filmPopup = null;
+    this._changeData = changeData;
 
     this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
@@ -39,11 +40,11 @@ export default class FilmCardPresenter {
       return;
     }
 
-    if (this._container.getElement().contains(previousFilmCard.getElement())) {
+    if (this._container.contains(previousFilmCard.getElement())) {
       replace(this._filmCard, previousFilmCard);
     }
 
-    if (this._container.getElement().contains(previousFilmPopup.getElement())) {
+    if (document.body.contains(previousFilmPopup.getElement())) {
       replace(this._filmPopup, previousFilmPopup);
     }
 
@@ -96,14 +97,14 @@ export default class FilmCardPresenter {
   }
 
   _watchlistClickHandler() {
-    console.log(`hi man!`);
+    this._changeData(Object.assign({}, this._film, {isInTheWatchlist: !this._film.isInTheWatchlist}));
   }
 
   _watchedClickHandler() {
-
+    this._changeData(Object.assign({}, this._film, {isWatched: !this._film.isWatched}));
   }
 
   _favoritesClickHandler() {
-
+    this._changeData(Object.assign({}, this._film, {isFavorite: !this._film.isFavorite}));
   }
 }
