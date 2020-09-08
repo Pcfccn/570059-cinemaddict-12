@@ -1,5 +1,7 @@
 import {films, descriptionText, genres, months, actors, countries, ageRatings, emojyes, FILM_COUNT} from '../constants.js';
 import {getRandomInteger, getRandomArrayElement} from '../utils/common.js';
+import {formateCommentDate} from '../utils/film';
+
 
 const generateDescription = () => {
   const descriptionSentenсes = descriptionText.replace(/\r?\n/g, ``).split(`.`);
@@ -33,26 +35,10 @@ const formateDate = (date) => {
   return `${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 };
 
+
 const createCommentDate = () => {
   const commentDate = generateRandomDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 7));
-  const msPerDay = 1000 * 60 * 60 * 24;
-  if ((commentDate - new Date()) < msPerDay && commentDate.getDay() === new Date().getDay()) {
-    return `today`;
-  } else if ((commentDate - new Date()) < msPerDay * 2 && commentDate.getDay() === new Date().getDay() - 1) {
-    return `1 day ago`;
-  } else if ((commentDate - new Date()) < msPerDay * 3 && commentDate.getDay() === new Date().getDay() - 2) {
-    return `2 days ago`;
-  } else {
-    return `${commentDate.getFullYear()}/${commentDate.getMonth() > 8
-      ? commentDate.getMonth() + 1
-      : `0` + (commentDate.getMonth() + 1)}/${commentDate.getDate() > 9
-      ? commentDate.getDate()
-      : `0` + commentDate.getDate()} ${commentDate.getHours() > 9
-      ? commentDate.getHours()
-      : `0` + commentDate.getHours()}:${commentDate.getMinutes() > 9
-      ? commentDate.getMinutes()
-      : `0` + commentDate.getMinutes()}`;
-  }
+  return formateCommentDate(commentDate);
 };
 
 

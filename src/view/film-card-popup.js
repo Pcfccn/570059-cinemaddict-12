@@ -1,4 +1,5 @@
 import AbstractView from "./abstract";
+import {formateCommentDate} from "../utils/film";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -26,14 +27,11 @@ const createComments = (comments, commentCount) => {
   );
 };
 
-const createFilmCardPopupTemplate = (filmCard) => {
+const createFilmCardPopupTemplate = (data) => {
 
-  const {movieTitle, originalMovieTitle, director, screenWriters, cast, poster, rating, dateOfRelease, duration,
-    country, filmGenres, description, ageRating, comments, commentCount, isInTheWatchlist, isWatched, isFavorite} = filmCard;
-  const writers = screenWriters.join(`, `);
-  const actors = cast.join(`, `);
-  const genres = filmGenres.map((it) => `<span class="film-details__genre">${it}</span>`).join(` `);
-
+  const {movieTitle, originalMovieTitle, director, poster, rating, dateOfRelease, duration,
+    country, description, ageRating, commentCount, writers, actors, genres,
+    isInTheWatchlistInputState, isWatchedInputState, isFavoriteInputState, filmComments} = data;
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -99,13 +97,13 @@ const createFilmCardPopupTemplate = (filmCard) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist"${getInputState(isInTheWatchlist)}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist"${isInTheWatchlistInputState}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched"${getInputState(isWatched)}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched"${isWatchedInputState}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite"${getInputState(isFavorite)}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite"${isFavoriteInputState}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -114,7 +112,7 @@ const createFilmCardPopupTemplate = (filmCard) => {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span></h3>
 
-              ${createComments(comments, commentCount)}
+              ${filmComments}
 
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -155,7 +153,7 @@ const createFilmCardPopupTemplate = (filmCard) => {
 export default class FilmCardPopupView extends AbstractView {
   constructor(filmCard) {
     super();
-    this._filmCard = filmCard;
+    this._data = FilmCardPopupView.parseFilmToData(filmCard);
     this._callback = {};
 
     this._closeButtonHandler = this._closeButtonHandler.bind(this);
@@ -165,7 +163,7 @@ export default class FilmCardPopupView extends AbstractView {
   }
 
   getTemplate() {
-    return createFilmCardPopupTemplate(this._filmCard);
+    return createFilmCardPopupTemplate(this._data);
   }
 
   _closeButtonHandler(evt) {
@@ -213,5 +211,40 @@ export default class FilmCardPopupView extends AbstractView {
     this.getElement().querySelector(`.film-details__control-label--watchlist`).removeEventListener(`click`, this._watchlistClickHandler);
     this.getElement().querySelector(`.film-details__control-label--watched`).removeEventListener(`click`, this._watchedClickHandler);
     this.getElement().querySelector(`.film-details__control-label--favorite`).removeEventListener(`click`, this._favoritesClickHandler);
+  }
+
+  static parseFilmToData(filmCard) {
+    return Object.assign({}, filmCard, {
+      writers: filmCard.screenWriters.join(`, `),
+      actors: filmCard.cast.join(`, `),
+      genres: filmCard.filmGenres.map((it) => `<span class="film-details__genre">${it}</span>`).join(` `),
+      isInTheWatchlistInputState: getInputState(filmCard.isInTheWatchlist),
+      isWatchedInputState: getInputState(filmCard.isWatched),
+      isFavoriteInputState: getInputState(filmCard.isFavorite),
+      filmComments: createComments(filmCard.comments, filmCard.commentCount),
+      newComment: {
+        comment: ``,
+        date: formateCommentDate(new Date()),
+        emotion: `smile`,
+        autor: `You`,
+      }
+    });
+  }
+
+  static parseDataToFilm(data) {
+    data = Object.assign({}, data);
+    if (data.newComment.comment !== ``) {
+      data = Object.assign(data, {comments: data.newComment});
+    }
+
+    delete data.writers;
+    delete data.actors;
+    delete data.genres;
+    delete data.isInTheWatchlistInputState;
+    delete data.isWatchedInputState;
+    delete data.isFavoriteInputState;
+    delete data.newComment;
+
+    return data;
   }
 }
