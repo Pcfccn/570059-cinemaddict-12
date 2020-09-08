@@ -1,10 +1,10 @@
 import AbstractView from "./abstract";
-import {formateCommentDate} from "../utils/film";
+import {emojyes} from "../constants";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
 const createComments = (comments, commentCount) => {
-  const commentsTemplate = comments.map((currentComment) => {
+  const commentsTemplate = comments.previousComments.map((currentComment) => {
     return (
       `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
@@ -31,7 +31,7 @@ const createFilmCardPopupTemplate = (data) => {
 
   const {movieTitle, originalMovieTitle, director, poster, rating, dateOfRelease, duration,
     country, description, ageRating, commentCount, writers, actors, genres,
-    isInTheWatchlistInputState, isWatchedInputState, isFavoriteInputState, filmComments} = data;
+    isInTheWatchlistInputState, isWatchedInputState, isFavoriteInputState, filmComments, newComment, newCommentEmoji} = data;
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -115,10 +115,12 @@ const createFilmCardPopupTemplate = (data) => {
               ${filmComments}
 
             <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+              <div for="add-emoji" class="film-details__add-emoji-label">
+                ${newCommentEmoji}
+              </div>
 
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment.comment}</textarea>
               </label>
 
               <div class="film-details__emoji-list">
@@ -160,28 +162,36 @@ export default class FilmCardPopupView extends AbstractView {
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._commentTextInputHandler = this._commentTextInputHandler.bind(this);
+    this._setCommentFormSubmitHandler = this._setCommentFormSubmitHandler.bind(this);
+
+    this.setInnerHandlers();
   }
 
   getTemplate() {
     return createFilmCardPopupTemplate(this._data);
   }
 
-  updateData(update) {
+  updateData(update, updateOnlyData = false) {
     if (!update) {
       return;
     }
-
     this._data = Object.assign({}, this._data, update);
+    if (updateOnlyData) {
+      return;
+    }
     this.updateElement();
   }
 
   updateElement() {
     let prevElement = this.getElement();
     const parent = prevElement.parentElement;
+    this.removeElement();
 
     const newElement = this.getElement();
     parent.replaceChild(newElement, prevElement);
     prevElement = null;
+    this.restoreInnerHandlers();
   }
 
   setCloseButtonHandler(callback) {
@@ -204,11 +214,37 @@ export default class FilmCardPopupView extends AbstractView {
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
   }
 
-  removeFilmPopupHandlers() {
-    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._closeButtonHandler);
-    this.getElement().querySelector(`.film-details__control-label--watchlist`).removeEventListener(`click`, this._watchlistClickHandler);
-    this.getElement().querySelector(`.film-details__control-label--watched`).removeEventListener(`click`, this._watchedClickHandler);
-    this.getElement().querySelector(`.film-details__control-label--favorite`).removeEventListener(`click`, this._favoritesClickHandler);
+  restoreInnerHandlers() {
+    this.setInnerHandlers();
+  }
+
+  setInnerHandlers() {
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`input`, this._commentTextInputHandler);
+    this._setCommentFormSubmitHandler();
+  }
+  _commentTextInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      newComment: {comment: evt.target.value}
+    }, true);
+  }
+
+  _setCommentFormSubmitHandler() {
+    let pressed = new Set();
+    const checkKeys = (evt) => {
+      pressed.add(evt.key);
+      for (let key of [`Enter`, `Control`]) {
+        if (!pressed.has(key)) {
+          return;
+        }
+      }
+      pressed.clear();
+      this.getElement().querySelector(`.film-details__inner`).submit();
+    };
+    this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, checkKeys);
+    this.getElement().querySelector(`.film-details__inner`).addEventListener(`keyup`, function (evt) {
+      pressed.delete(evt.key);
+    });
   }
 
   _closeButtonHandler(evt) {
@@ -241,29 +277,24 @@ export default class FilmCardPopupView extends AbstractView {
       isWatchedInputState: getInputState(filmCard.isWatched),
       isFavoriteInputState: getInputState(filmCard.isFavorite),
       filmComments: createComments(filmCard.comments, filmCard.commentCount),
-      newComment: {
-        comment: ``,
-        date: formateCommentDate(new Date()),
-        emotion: `smile`,
-        autor: `You`,
-      }
+      newComment: filmCard.comments.newComment,
+      newCommentEmoji: emojyes.includes(filmCard.comments.newComment.emotion)
+        ? `<img src="./images/emoji/${filmCard.comments.newComment.emotion}.png" width="55" height="55" alt="emoji"></img>`
+        : ``,
     });
   }
 
   static parseDataToFilm(data) {
-    data = Object.assign({}, data);
-    if (data.newComment.comment !== ``) {
-      data = Object.assign(data, {comments: data.newComment});
-    }
-
+    data = Object.assign({}, data, {comments: {newComment: data.newComment}});
     delete data.writers;
     delete data.actors;
     delete data.genres;
     delete data.isInTheWatchlistInputState;
     delete data.isWatchedInputState;
     delete data.isFavoriteInputState;
+    delete data.filmComments;
     delete data.newComment;
-
+    delete data.newCommentEmoji;
     return data;
   }
 }

@@ -64,7 +64,14 @@ const generateFilmCard = () => {
   const randomDate = generateRandomDate();
   const year = randomDate.getFullYear();
   const dateOfRelease = formateDate(randomDate);
-  const comments = new Array(getRandomInteger(0, 5)).fill().map(generateComment);
+  const comments = {
+    previousComments: new Array(getRandomInteger(0, 5)).fill().map(generateComment),
+    newComment: {
+      comment: ``,
+      date: formateCommentDate(new Date()),
+      emotion: ``,
+    },
+  };
   const filmGenres = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(genres));
   const screenWriters = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(actors));
   const cast = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(actors));
@@ -87,7 +94,7 @@ const generateFilmCard = () => {
     shortDescription,
     ageRating: getRandomArrayElement(ageRatings),
     comments,
-    commentCount: comments.length,
+    commentCount: comments.previousComments.length,
     isInTheWatchlist: Boolean(getRandomInteger(0, 1)),
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),

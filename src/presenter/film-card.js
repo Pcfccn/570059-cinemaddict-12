@@ -34,6 +34,7 @@ export default class FilmCardPresenter {
     this._filmPopup.setWatchlistClickHandler(this._watchlistClickHandler);
     this._filmPopup.setWatchedClickHandler(this._watchedClickHandler);
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
+    this._filmPopup.setCloseButtonHandler(this._closeButtonClickHandler);
 
     if (!previousFilmCard || !previousFilmPopup) {
       render(this._container, this._filmCard);
@@ -65,12 +66,12 @@ export default class FilmCardPresenter {
     this._filmPopup.setWatchlistClickHandler(this._watchlistClickHandler);
     this._filmPopup.setWatchedClickHandler(this._watchedClickHandler);
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
+    this._filmPopup.setInnerHandlers();
   }
 
   _closePopup() {
     remove(this._filmPopup);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    this._filmPopup.removeFilmPopupHandlers();
     this._filmCard.setPosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);
     this._filmCard.setWatchlistClickHandler(this._watchlistClickHandler);
     this._filmCard.setWatchedClickHandler(this._watchedClickHandler);
