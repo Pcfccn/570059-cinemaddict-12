@@ -1,5 +1,5 @@
-import AbstractView from "./abstract";
 import {emojyes} from "../constants";
+import SmartView from "./smart";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -152,7 +152,7 @@ const createFilmCardPopupTemplate = (data) => {
   );
 };
 
-export default class FilmCardPopupView extends AbstractView {
+export default class FilmCardPopupView extends SmartView {
   constructor(filmCard) {
     super();
     this._data = FilmCardPopupView.parseFilmToData(filmCard);
@@ -171,28 +171,6 @@ export default class FilmCardPopupView extends AbstractView {
 
   getTemplate() {
     return createFilmCardPopupTemplate(this._data);
-  }
-
-  updateData(update, updateOnlyData = false) {
-    if (!update) {
-      return;
-    }
-    this._data = Object.assign({}, this._data, update);
-    if (updateOnlyData) {
-      return;
-    }
-    this.updateElement();
-  }
-
-  updateElement() {
-    let prevElement = this.getElement();
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.getElement();
-    parent.replaceChild(newElement, prevElement);
-    prevElement = null;
-    this.restoreInnerHandlers();
   }
 
   setCloseButtonHandler(callback) {
@@ -251,7 +229,8 @@ export default class FilmCardPopupView extends AbstractView {
         }
       }
       pressed.clear();
-      this.getElement().querySelector(`.film-details__inner`).submit();
+      // this.getElement().querySelector(`.film-details__inner`).submit();
+      this._callback.closeButtonHandler();
     };
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, checkKeys);
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keyup`, function (evt) {
