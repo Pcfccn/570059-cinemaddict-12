@@ -1,13 +1,15 @@
 import FilmCardView from "../view/film-card";
 import FilmCardPopupView from "../view/film-card-popup";
 import {render, remove, replace} from "../utils/render";
-import {keyboardKey} from "../constants";
+import {keyboardKey, mode} from "../constants";
 
 export default class FilmCardPresenter {
-  constructor(changeData) {
+  constructor(changeData, changeMode) {
+    this._changeData = changeData;
+    this._changeMode = changeMode;
     this._filmCard = null;
     this._filmPopup = null;
-    this._changeData = changeData;
+    this._mode = mode.DEFAULT;
 
     this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
@@ -41,11 +43,11 @@ export default class FilmCardPresenter {
       return;
     }
 
-    if (this._container.contains(previousFilmCard.getElement())) {
+    if (this.mode === mode.DEFAULT) {
       replace(this._filmCard, previousFilmCard);
     }
 
-    if (document.body.contains(previousFilmPopup.getElement())) {
+    if (this.mode === mode.POPUP) {
       replace(this._filmPopup, previousFilmPopup);
     }
 
@@ -58,6 +60,12 @@ export default class FilmCardPresenter {
     remove(this._filmPopup);
   }
 
+  resetView() {
+    if (this._mode !== mode.DEFAULT) {
+      this._closePopup();
+    }
+  }
+
   _showPopup() {
     render(document.body, this._filmPopup);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
@@ -66,6 +74,9 @@ export default class FilmCardPresenter {
     this._filmPopup.setWatchedClickHandler(this._watchedClickHandler);
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
     this._filmPopup.setInnerHandlers();
+
+    this._changeMode();
+    this._mode = mode.POPUP;
   }
 
   _closePopup() {
@@ -76,6 +87,8 @@ export default class FilmCardPresenter {
     this._filmCard.setWatchlistClickHandler(this._watchlistClickHandler);
     this._filmCard.setWatchedClickHandler(this._watchedClickHandler);
     this._filmCard.setFavoritesClickHandler(this._favoritesClickHandler);
+
+    this._mode = mode.DEFAULT;
   }
 
   _onEscKeyDown(evt) {

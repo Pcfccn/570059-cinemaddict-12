@@ -85,5 +85,10 @@ const keyboardKey = {
   ESC: `Esc`,
 };
 
+const mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
-  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName, keyboardKey};
+  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName, keyboardKey, mode};
