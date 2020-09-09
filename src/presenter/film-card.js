@@ -62,7 +62,6 @@ export default class FilmCardPresenter {
     render(document.body, this._filmPopup);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._filmPopup.setCloseButtonHandler(this._closeButtonClickHandler);
-    this._filmCard.removeFilmCardClickHandlers();
     this._filmPopup.setWatchlistClickHandler(this._watchlistClickHandler);
     this._filmPopup.setWatchedClickHandler(this._watchedClickHandler);
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
@@ -70,6 +69,7 @@ export default class FilmCardPresenter {
   }
 
   _closePopup() {
+    this._filmPopup.reset(this._film);
     remove(this._filmPopup);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._filmCard.setPosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);

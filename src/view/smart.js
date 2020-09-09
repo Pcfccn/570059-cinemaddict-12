@@ -25,10 +25,10 @@ export default class SmartView extends AbstractView {
     const newElement = this.getElement();
     parent.replaceChild(newElement, prevElement);
     prevElement = null;
-    this.restoreInnerHandlers();
+    this.restoreHandlers();
   }
 
-  restoreInnerHandlers() {
-    throw new Error(`Abstract method not implemented: restoreInnerHandlers`);
+  restoreHandlers() {
+    throw new Error(`Abstract method not implemented: restoreHandlers`);
   }
 }

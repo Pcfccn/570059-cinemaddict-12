@@ -1,5 +1,6 @@
 import {emojyes} from "../constants";
 import SmartView from "./smart";
+import {remove} from "../utils/render";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -155,6 +156,7 @@ const createFilmCardPopupTemplate = (data) => {
 export default class FilmCardPopupView extends SmartView {
   constructor(filmCard) {
     super();
+    this._filmCard = filmCard;
     this._data = FilmCardPopupView.parseFilmToData(filmCard);
     this._callback = {};
 
@@ -193,8 +195,11 @@ export default class FilmCardPopupView extends SmartView {
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
   }
 
-  restoreInnerHandlers() {
+  restoreHandlers() {
     this.setInnerHandlers();
+    this.setWatchlistClickHandler(this._callback.watchlistClickHandler);
+    this.setWatchedClickHandler(this._callback.watchedClickHandler);
+    this.setFavoritesClickHandler(this._callback.favoritesClickHandler);
   }
 
   setInnerHandlers() {
@@ -202,6 +207,13 @@ export default class FilmCardPopupView extends SmartView {
     this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`change`, this._emojiListHandler);
     this._setCommentFormSubmitHandler();
   }
+
+  reset(film) {
+    this.updateData(
+        FilmCardPopupView.parseFilmToData(film)
+    );
+  }
+
   _commentTextInputHandler(evt) {
     evt.preventDefault();
     this.updateData({
@@ -212,10 +224,10 @@ export default class FilmCardPopupView extends SmartView {
   _emojiListHandler(evt) {
     evt.preventDefault();
     this.updateData({
-      newComment: Object.assign(this._data.newComment, {emotion: evt.target.value}),
       newCommentEmoji: emojyes.includes(evt.target.value)
         ? `<img src="./images/emoji/${evt.target.value}.png" width="55" height="55" alt="emoji"></img>`
         : ``,
+      emoji: evt.target.value
     });
   }
 
@@ -230,7 +242,8 @@ export default class FilmCardPopupView extends SmartView {
       }
       pressed.clear();
       // this.getElement().querySelector(`.film-details__inner`).submit();
-      this._callback.closeButtonHandler();
+      FilmCardPopupView.parseDataToFilm(this._data);
+      remove(this);
     };
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, checkKeys);
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keyup`, function (evt) {
@@ -269,6 +282,7 @@ export default class FilmCardPopupView extends SmartView {
       isFavoriteInputState: getInputState(filmCard.isFavorite),
       filmComments: createComments(filmCard.comments, filmCard.commentCount),
       newComment: filmCard.comments.newComment,
+      emoji: filmCard.comments.newComment.emotion,
       newCommentEmoji: emojyes.includes(filmCard.comments.newComment.emotion)
         ? `<img src="./images/emoji/${filmCard.comments.newComment.emotion}.png" width="55" height="55" alt="emoji"></img>`
         : ``,
@@ -276,7 +290,12 @@ export default class FilmCardPopupView extends SmartView {
   }
 
   static parseDataToFilm(data) {
-    data = Object.assign({}, data, {comments: {newComment: data.newComment}});
+    data = Object.assign({}, data);
+    data.comments.newComment.comment = data.newComment.comment !== `` ? data.newComment.comment : ``;
+    delete data.newComment;
+    data.comments.newComment.emotion = data.emoji ? data.emoji : ``;
+    delete data.emoji;
+
     delete data.writers;
     delete data.actors;
     delete data.genres;
@@ -284,7 +303,6 @@ export default class FilmCardPopupView extends SmartView {
     delete data.isWatchedInputState;
     delete data.isFavoriteInputState;
     delete data.filmComments;
-    delete data.newComment;
     delete data.newCommentEmoji;
     return data;
   }
