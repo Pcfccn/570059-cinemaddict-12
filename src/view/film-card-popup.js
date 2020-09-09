@@ -164,6 +164,7 @@ export default class FilmCardPopupView extends AbstractView {
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
     this._commentTextInputHandler = this._commentTextInputHandler.bind(this);
     this._setCommentFormSubmitHandler = this._setCommentFormSubmitHandler.bind(this);
+    this._emojiListHandler = this._emojiListHandler.bind(this);
 
     this.setInnerHandlers();
   }
@@ -220,6 +221,7 @@ export default class FilmCardPopupView extends AbstractView {
 
   setInnerHandlers() {
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`input`, this._commentTextInputHandler);
+    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`change`, this._emojiListHandler);
     this._setCommentFormSubmitHandler();
   }
   _commentTextInputHandler(evt) {
@@ -227,6 +229,16 @@ export default class FilmCardPopupView extends AbstractView {
     this.updateData({
       newComment: {comment: evt.target.value}
     }, true);
+  }
+
+  _emojiListHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      newComment: Object.assign(this._data.newComment, {emotion: evt.target.value}),
+      newCommentEmoji: emojyes.includes(evt.target.value)
+        ? `<img src="./images/emoji/${evt.target.value}.png" width="55" height="55" alt="emoji"></img>`
+        : ``,
+    });
   }
 
   _setCommentFormSubmitHandler() {
