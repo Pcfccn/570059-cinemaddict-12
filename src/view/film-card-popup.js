@@ -157,6 +157,7 @@ export default class FilmCardPopupView extends SmartView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;
+
     this._data = FilmCardPopupView.parseFilmToData(filmCard);
     this._callback = {};
 

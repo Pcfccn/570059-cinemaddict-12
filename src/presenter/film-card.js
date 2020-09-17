@@ -43,12 +43,13 @@ export default class FilmCardPresenter {
       return;
     }
 
-    if (this.mode === mode.DEFAULT) {
+    if (this._mode === mode.DEFAULT) {
       replace(this._filmCard, previousFilmCard);
     }
 
-    if (this.mode === mode.POPUP) {
+    if (this._mode === mode.POPUP) {
       replace(this._filmPopup, previousFilmPopup);
+      replace(this._filmCard, previousFilmCard);
     }
 
     remove(previousFilmCard);
@@ -83,10 +84,6 @@ export default class FilmCardPresenter {
     this._filmPopup.reset(this._film);
     remove(this._filmPopup);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    this._filmCard.setPosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);
-    this._filmCard.setWatchlistClickHandler(this._watchlistClickHandler);
-    this._filmCard.setWatchedClickHandler(this._watchedClickHandler);
-    this._filmCard.setFavoritesClickHandler(this._favoritesClickHandler);
 
     this._mode = mode.DEFAULT;
   }
