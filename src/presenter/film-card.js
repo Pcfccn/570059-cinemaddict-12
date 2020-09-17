@@ -17,6 +17,7 @@ export default class FilmCardPresenter {
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._submitPopup = this._submitPopup.bind(this);
   }
 
   init(container, film) {
@@ -37,6 +38,7 @@ export default class FilmCardPresenter {
     this._filmPopup.setWatchedClickHandler(this._watchedClickHandler);
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
     this._filmPopup.setCloseButtonHandler(this._closeButtonClickHandler);
+    this._filmPopup.setSubmitPopupHandler(this._submitPopup);
 
     if (!previousFilmCard || !previousFilmPopup) {
       render(this._container, this._filmCard);
@@ -75,6 +77,7 @@ export default class FilmCardPresenter {
     this._filmPopup.setWatchedClickHandler(this._watchedClickHandler);
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
     this._filmPopup.setInnerHandlers();
+    this._filmPopup.setSubmitPopupHandler(this._submitPopup);
 
     this._changeMode();
     this._mode = mode.POPUP;
@@ -82,6 +85,13 @@ export default class FilmCardPresenter {
 
   _closePopup() {
     this._filmPopup.reset(this._film);
+    remove(this._filmPopup);
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
+
+    this._mode = mode.DEFAULT;
+  }
+
+  _submitPopup() {
     remove(this._filmPopup);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
 

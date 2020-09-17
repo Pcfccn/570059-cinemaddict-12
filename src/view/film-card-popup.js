@@ -1,6 +1,5 @@
 import {emojyes} from "../constants";
 import SmartView from "./smart";
-import {remove} from "../utils/render";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -215,6 +214,10 @@ export default class FilmCardPopupView extends SmartView {
     );
   }
 
+  setSubmitPopupHandler(callback) {
+    this._callback.submitPopupHandler = callback;
+  }
+
   _commentTextInputHandler(evt) {
     evt.preventDefault();
     this.updateData({
@@ -244,7 +247,7 @@ export default class FilmCardPopupView extends SmartView {
       pressed.clear();
       // this.getElement().querySelector(`.film-details__inner`).submit();
       FilmCardPopupView.parseDataToFilm(this._data);
-      remove(this);
+      this._callback.submitPopupHandler();
     };
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, checkKeys);
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keyup`, function (evt) {
