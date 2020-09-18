@@ -1,3 +1,4 @@
+import moment from "moment";
 import {months} from "../constants";
 
 const sortDateDown = (filmA, filmB) => {
@@ -21,22 +22,15 @@ const sortRatingDown = (filmA, filmB) => {
 
 const formateCommentDate = (date) => {
   const msPerDay = 1000 * 60 * 60 * 24;
-  if ((date - new Date()) < msPerDay && date.getDay() === new Date().getDay()) {
-    return `today`;
-  } else if ((date - new Date()) < msPerDay * 2 && date.getDay() === new Date().getDay() - 1) {
-    return `1 day ago`;
-  } else if ((date - new Date()) < msPerDay * 3 && date.getDay() === new Date().getDay() - 2) {
-    return `2 days ago`;
-  } else {
-    return `${date.getFullYear()}/${date.getMonth() > 8
-      ? date.getMonth() + 1
-      : `0` + (date.getMonth() + 1)}/${date.getDate() > 9
-      ? date.getDate()
-      : `0` + date.getDate()} ${date.getHours() > 9
-      ? date.getHours()
-      : `0` + date.getHours()}:${date.getMinutes() > 9
-      ? date.getMinutes()
-      : `0` + date.getMinutes()}`;
+  const daysFromNow = Math.floor(new Date() / msPerDay) - Math.floor(date / msPerDay);
+  switch (daysFromNow) {
+    case 0:
+      return `today`;
+    case 1:
+    case 2:
+      return `${daysFromNow} days ago`;
+    default:
+      return moment(date).format(`YYYY/MM/DD HH:MM`);
   }
 };
 

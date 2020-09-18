@@ -1,6 +1,7 @@
-import {films, descriptionText, genres, months, actors, countries, ageRatings, emojyes, FILM_COUNT} from '../constants.js';
+import {films, descriptionText, genres, actors, countries, ageRatings, emojyes, FILM_COUNT} from '../constants.js';
 import {getRandomInteger, getRandomArrayElement} from '../utils/common.js';
 import {formateCommentDate} from '../utils/film';
+import moment from "moment";
 
 
 const generateDescription = () => {
@@ -31,9 +32,7 @@ const generateRandomDate = (start = new Date(1900, 0, 0), end = new Date()) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
-const formateDate = (date) => {
-  return `${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()}`;
-};
+const formateDate = (date) => moment(date).format(`DD MMMM YYYY`);
 
 
 const createCommentDate = () => {
