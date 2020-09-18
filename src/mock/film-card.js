@@ -1,5 +1,7 @@
 import {films, descriptionText, genres, months, actors, countries, ageRatings, emojyes, FILM_COUNT} from '../constants.js';
 import {getRandomInteger, getRandomArrayElement} from '../utils/common.js';
+import {formateCommentDate} from '../utils/film';
+
 
 const generateDescription = () => {
   const descriptionSentenсes = descriptionText.replace(/\r?\n/g, ``).split(`.`);
@@ -33,26 +35,10 @@ const formateDate = (date) => {
   return `${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 };
 
+
 const createCommentDate = () => {
   const commentDate = generateRandomDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 7));
-  const msPerDay = 1000 * 60 * 60 * 24;
-  if ((commentDate - new Date()) < msPerDay && commentDate.getDay() === new Date().getDay()) {
-    return `today`;
-  } else if ((commentDate - new Date()) < msPerDay * 2 && commentDate.getDay() === new Date().getDay() - 1) {
-    return `1 day ago`;
-  } else if ((commentDate - new Date()) < msPerDay * 3 && commentDate.getDay() === new Date().getDay() - 2) {
-    return `2 days ago`;
-  } else {
-    return `${commentDate.getFullYear()}/${commentDate.getMonth() > 8
-      ? commentDate.getMonth() + 1
-      : `0` + (commentDate.getMonth() + 1)}/${commentDate.getDate() > 9
-      ? commentDate.getDate()
-      : `0` + commentDate.getDate()} ${commentDate.getHours() > 9
-      ? commentDate.getHours()
-      : `0` + commentDate.getHours()}:${commentDate.getMinutes() > 9
-      ? commentDate.getMinutes()
-      : `0` + commentDate.getMinutes()}`;
-  }
+  return formateCommentDate(commentDate);
 };
 
 
@@ -65,6 +51,8 @@ const generateComment = () => {
   };
 };
 
+const generateFakeId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateFilmCard = () => {
 
   const muvieNumber = getRandomInteger(0, films.length - 1);
@@ -76,12 +64,20 @@ const generateFilmCard = () => {
   const randomDate = generateRandomDate();
   const year = randomDate.getFullYear();
   const dateOfRelease = formateDate(randomDate);
-  const comments = new Array(getRandomInteger(0, 5)).fill().map(generateComment);
+  const comments = {
+    previousComments: new Array(getRandomInteger(0, 5)).fill().map(generateComment),
+    newComment: {
+      comment: ``,
+      date: formateCommentDate(new Date()),
+      emotion: ``,
+    },
+  };
   const filmGenres = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(genres));
   const screenWriters = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(actors));
   const cast = new Array(getRandomInteger(1, 5)).fill().map(() => getRandomArrayElement(actors));
 
   return {
+    id: generateFakeId(),
     movieTitle: films[muvieNumber].title,
     originalMovieTitle: films[muvieNumber].title,
     director: getRandomArrayElement(actors),
@@ -98,7 +94,7 @@ const generateFilmCard = () => {
     shortDescription,
     ageRating: getRandomArrayElement(ageRatings),
     comments,
-    commentCount: comments.length,
+    commentCount: comments.previousComments.length,
     isInTheWatchlist: Boolean(getRandomInteger(0, 1)),
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1)),

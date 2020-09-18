@@ -1,5 +1,5 @@
 import AbstractView from "./abstract";
-import {sortTypes} from "../constants";
+import {sortTypes, HTMLTagName} from "../constants";
 
 const createMainSortTemplate = () => {
   return (
@@ -22,7 +22,7 @@ export default class SortView extends AbstractView {
   }
 
   _sortTypeHandler(evt) {
-    if (evt.target.tagName !== `A`) {
+    if (evt.target.tagName !== HTMLTagName.a) {
       return;
     }
     evt.preventDefault();

@@ -76,5 +76,19 @@ const sortTypes = {
   BY_RATING: `byRating`
 };
 
+const HTMLTagName = {
+  a: `A`
+};
+
+const keyboardKey = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
+};
+
+const mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
-  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes};
+  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName, keyboardKey, mode};
