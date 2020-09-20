@@ -9,10 +9,10 @@ import FilmsModel from './model/movies.js';
 
 
 const films = generateFilmCards();
-const filteredElementCount = getFilterElementCount(films);
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
+const filteredElementCount = getFilterElementCount(filmsModel.getFilms());
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
@@ -23,4 +23,4 @@ render(siteMainElement, new FilterView(filteredElementCount));
 
 new MovieListPresenter(siteMainElement, filmsModel).init();
 
-render(siteFooterElement, new FooterStatisticsView(films.length));
+render(siteFooterElement, new FooterStatisticsView(filmsModel.getFilms().length));

@@ -1,7 +1,7 @@
 import FilmCardView from "../view/film-card";
 import FilmCardPopupView from "../view/film-card-popup";
 import {render, remove, replace} from "../utils/render";
-import {keyboardKey, mode} from "../constants";
+import {keyboardKey, mode, updateTypes, userActions} from "../constants";
 
 export default class FilmCardPresenter {
   constructor(changeData, changeMode) {
@@ -11,13 +11,13 @@ export default class FilmCardPresenter {
     this._filmPopup = null;
     this._mode = mode.DEFAULT;
 
-    this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
+    this._submitPopup = this._submitPopup.bind(this);
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
-    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
-    this._submitPopup = this._submitPopup.bind(this);
   }
 
   init(container, film) {
@@ -118,14 +118,23 @@ export default class FilmCardPresenter {
   }
 
   _watchlistClickHandler() {
-    this._changeData(Object.assign({}, this._film, {isInTheWatchlist: !this._film.isInTheWatchlist}));
+    this._changeData(
+        userActions.UPDATE_FILM,
+        updateTypes.PATCH,
+        Object.assign({}, this._film, {isInTheWatchlist: !this._film.isInTheWatchlist}));
   }
 
   _watchedClickHandler() {
-    this._changeData(Object.assign({}, this._film, {isWatched: !this._film.isWatched}));
+    this._changeData(
+        userActions.UPDATE_FILM,
+        updateTypes.PATCH,
+        Object.assign({}, this._film, {isWatched: !this._film.isWatched}));
   }
 
   _favoritesClickHandler() {
-    this._changeData(Object.assign({}, this._film, {isFavorite: !this._film.isFavorite}));
+    this._changeData(
+        userActions.UPDATE_FILM,
+        updateTypes.PATCH,
+        Object.assign({}, this._film, {isFavorite: !this._film.isFavorite}));
   }
 }

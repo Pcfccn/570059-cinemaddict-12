@@ -1,6 +1,6 @@
 const FILM_COUNT = 22;
 const FILM_COUNT_PER_STEP = 5;
-
+const EXSTRA_MOVIES_COUNT = 2;
 
 const films = [
   {title: `Made for each other`, poster: `made-for-each-other.png`},
@@ -68,8 +68,6 @@ const extraContainersName = {
   MOST_COMMENTED: `Most commented`,
 };
 
-const EXSTRA_MOVIES_COUNT = 2;
-
 const sortTypes = {
   DEFAULT: `default`,
   BY_DATE: `byDate`,
@@ -90,5 +88,18 @@ const mode = {
   POPUP: `POPUP`
 };
 
+const userActions = {
+  UPDATE_FILM: `UPDATE_FILM`,
+  SUBMIT_COMMENT: `SUBMIT_COMMENT`,
+  DELETE_COMMENT: `DELETE_COMMENT`
+};
+
+const updateTypes = {
+  PATCH: `PATCH`,
+  MINOR: `MINOR`,
+  MAJOR: `MAJOR`
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
-  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName, keyboardKey, mode};
+  ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName,
+  keyboardKey, mode, userActions, updateTypes};
