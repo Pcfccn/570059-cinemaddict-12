@@ -11,8 +11,10 @@ import FilmCardPresenter from './film-card';
 import {updateItem} from '../utils/common';
 
 export default class MovieListPresenter {
-  constructor(siteMainElement) {
+  constructor(siteMainElement, filmsModel) {
+    this._filmsModel = filmsModel;
     this._siteMainElement = siteMainElement;
+
     this._FILM_COUNT_PER_STEP = FILM_COUNT_PER_STEP;
     this._EXSTRA_MOVIES_COUNT = EXSTRA_MOVIES_COUNT;
     this._currentSortType = sortTypes.DEFAULT;
