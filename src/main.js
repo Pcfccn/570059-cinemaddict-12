@@ -21,6 +21,6 @@ const siteFooterElement = document.querySelector(`.footer`);
 render(siteHeaderElement, new HeaderProfileView());
 render(siteMainElement, new FilterView(filteredElementCount));
 
-new MovieListPresenter(siteMainElement, filmsModel).init(films);
+new MovieListPresenter(siteMainElement, filmsModel).init();
 
 render(siteFooterElement, new FooterStatisticsView(films.length));
