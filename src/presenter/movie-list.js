@@ -92,14 +92,6 @@ export default class MovieListPresenter {
     render(this._siteMainFilms, this._sortComponent, renderPosition.AFTER_BEGIN);
   }
 
-  // _clearFilmList() {
-  //   Object.values(this._filmPresenter).forEach((presenter) => {
-  //     presenter.destroy();
-  //   });
-  //   this._filmPresenter = {};
-  //   this._renderedFilmCount = FILM_COUNT_PER_STEP;
-  // }
-
   _clearBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
     const filmCount = this._getFilms().length;
 
@@ -200,10 +192,10 @@ export default class MovieListPresenter {
         this._filmsModel.updateFilm(updateType, update);
         break;
       case userActions.SUBMIT_COMMENT:
-        this._filmsModel.addFilm(updateType, update);
+        this._filmsModel.addComment(updateType, update);
         break;
       case userActions.DELETE_COMMENT:
-        this._filmsModel.deleteFilm(updateType, update);
+        this._filmsModel.deleteComment(updateType, update);
         break;
     }
   }

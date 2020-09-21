@@ -15,7 +15,7 @@ const createComments = (comments, commentCount) => {
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${currentComment.autor}</span>
             <span class="film-details__comment-day">${currentComment.date}</span>
-            <button class="film-details__comment-delete">Delete</button>
+            <button class="film-details__comment-delete" value="${currentComment.id}">Delete</button>
           </p>
         </div>
       </li>`);
@@ -161,6 +161,7 @@ export default class FilmCardPopupView extends SmartView {
     this._callback = {};
 
     this._closeButtonHandler = this._closeButtonHandler.bind(this);
+    this._commentDeleteClickHandler = this._commentDeleteClickHandler.bind(this);
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
@@ -273,6 +274,16 @@ export default class FilmCardPopupView extends SmartView {
   _favoritesClickHandler(evt) {
     evt.preventDefault();
     this._callback.favoritesClickHandler();
+  }
+
+  _commentDeleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.commentDeleteClickHandler(evt);
+  }
+
+  setCommentDeleteClickHandler(callback) {
+    this._callback.commentDeleteClickHandler = callback;
+    this.getElement().querySelector(`.film-details__comments-wrap`).addEventListener(`click`, this._commentDeleteClickHandler);
   }
 
 

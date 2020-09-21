@@ -2,7 +2,6 @@ import AbstractView from "./abstract";
 import {sortTypes, HTMLTagName} from "../constants";
 
 const createMainSortTemplate = (currentSortType) => {
-  console.log(currentSortType);
   return (
     `<ul class="sort">
       <li><a href="#" class="sort__button${currentSortType === sortTypes.DEFAULT
@@ -35,15 +34,6 @@ export default class SortView extends AbstractView {
     }
     evt.preventDefault();
     this._callback.sort(evt.target.dataset.sortType);
-
-
-    // const sortButtonsElements = this.getElement().querySelectorAll(`.sort__button`);
-    // sortButtonsElements.forEach((currentElement) => {
-    //   if (currentElement.classList.contains(`sort__button--active`)) {
-    //     currentElement.classList.remove(`sort__button--active`);
-    //   }
-    // });
-    // evt.target.classList.add(`sort__button--active`);
   }
 
   setSortTypeHandler(callback) {

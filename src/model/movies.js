@@ -30,7 +30,7 @@ export default class FilmsModel extends Observer {
     this._notify(updateType, update);
   }
 
-  addTask(updateType, update) {
+  addComment(updateType, update) {
     this._films = [
       update,
       ...this._films
@@ -39,7 +39,7 @@ export default class FilmsModel extends Observer {
     this._notify(updateType, update);
   }
 
-  deleteTask(updateType, update) {
+  deleteComment(updateType, update) {
     const index = this._films.findIndex((film) => film.id === update.id);
 
     if (index === -1) {
@@ -51,6 +51,6 @@ export default class FilmsModel extends Observer {
       ...this._films.slice(index + 1)
     ];
 
-    this._notify(updateType);
+    this._notify(updateType, update);
   }
 }

@@ -75,7 +75,8 @@ const sortTypes = {
 };
 
 const HTMLTagName = {
-  a: `A`
+  a: `A`,
+  BUTTON: `BUTTON`
 };
 
 const keyboardKey = {

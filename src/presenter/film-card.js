@@ -1,7 +1,7 @@
 import FilmCardView from "../view/film-card";
 import FilmCardPopupView from "../view/film-card-popup";
 import {render, remove, replace} from "../utils/render";
-import {keyboardKey, mode, updateTypes, userActions} from "../constants";
+import {HTMLTagName, keyboardKey, mode, updateTypes, userActions} from "../constants";
 
 export default class FilmCardPresenter {
   constructor(changeData, changeMode) {
@@ -12,6 +12,7 @@ export default class FilmCardPresenter {
     this._mode = mode.DEFAULT;
 
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
+    this._commentDeleteClickHandler = this._commentDeleteClickHandler.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
     this._posterAndCommentsClickHandler = this._posterAndCommentsClickHandler.bind(this);
@@ -29,7 +30,6 @@ export default class FilmCardPresenter {
 
     this._filmCard = new FilmCardView(this._film);
     this._filmPopup = new FilmCardPopupView(this._film);
-
     this._filmCard.setPosterAndCommentsClickHandler(this._posterAndCommentsClickHandler);
     this._filmCard.setWatchlistClickHandler(this._watchlistClickHandler);
     this._filmCard.setWatchedClickHandler(this._watchedClickHandler);
@@ -39,6 +39,7 @@ export default class FilmCardPresenter {
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
     this._filmPopup.setCloseButtonHandler(this._closeButtonClickHandler);
     this._filmPopup.setSubmitPopupHandler(this._submitPopup);
+    this._filmPopup.setCommentDeleteClickHandler(this._commentDeleteClickHandler);
 
     if (!previousFilmCard || !previousFilmPopup) {
       render(this._container, this._filmCard);
@@ -78,6 +79,7 @@ export default class FilmCardPresenter {
     this._filmPopup.setFavoritesClickHandler(this._favoritesClickHandler);
     this._filmPopup.setInnerHandlers();
     this._filmPopup.setSubmitPopupHandler(this._submitPopup);
+    this._filmPopup.setCommentDeleteClickHandler(this._commentDeleteClickHandler);
 
     this._changeMode();
     this._mode = mode.POPUP;
@@ -89,6 +91,37 @@ export default class FilmCardPresenter {
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
 
     this._mode = mode.DEFAULT;
+  }
+
+  _commentDeleteClickHandler(evt) {
+    if (evt.target.tagName !== HTMLTagName.BUTTON) {
+      return;
+    }
+    // const a = Object.assign({}, this._film.comments.previousComments.filter((comment) => comment.id !== +evt.target.value));
+    // const b = Object.assign({}, this._film.comments, {previousComments: a});
+    // const c = Object.assign({}, this._film, {comments: b});
+    // console.log(a);
+    // console.log(b);
+    // console.log(c);
+    // console.log(evt.target.value);
+    // console.log(Object.assign({}, this._film, {comments: Object.assign({},
+    //     this._film.comments, {previousComments: this._film.comments.previousComments.slice().filter((comment) => comment.id !== +evt.target.value)})}));
+    // console.log(Object.assign({}, this._film, {comments: Object.assign({},
+    //     this._film.comments, {previousComments: this._film.comments.previousComments.slice().filter((comment) => comment.id === +evt.target.value)})}));
+    this._changeData(
+        userActions.UPDATE_FILM,
+        updateTypes.PATCH,
+        Object.assign(
+            {},
+            this._film,
+            {commentCount: this._film.commentCount - 1},
+            {comments: Object.assign(
+                {},
+                this._film.comments,
+                {previousComments: this._film.comments.previousComments.slice().filter((comment) => comment.id !== +evt.target.value)}
+            )}
+        )
+    );
   }
 
   _submitPopup() {
@@ -120,21 +153,21 @@ export default class FilmCardPresenter {
   _watchlistClickHandler() {
     this._changeData(
         userActions.UPDATE_FILM,
-        updateTypes.PATCH,
+        updateTypes.MINOR,
         Object.assign({}, this._film, {isInTheWatchlist: !this._film.isInTheWatchlist}));
   }
 
   _watchedClickHandler() {
     this._changeData(
         userActions.UPDATE_FILM,
-        updateTypes.PATCH,
+        updateTypes.MINOR,
         Object.assign({}, this._film, {isWatched: !this._film.isWatched}));
   }
 
   _favoritesClickHandler() {
     this._changeData(
         userActions.UPDATE_FILM,
-        updateTypes.PATCH,
+        updateTypes.MINOR,
         Object.assign({}, this._film, {isFavorite: !this._film.isFavorite}));
   }
 }
