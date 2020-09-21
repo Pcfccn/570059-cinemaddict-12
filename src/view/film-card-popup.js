@@ -283,7 +283,7 @@ export default class FilmCardPopupView extends SmartView {
 
   setCommentDeleteClickHandler(callback) {
     this._callback.commentDeleteClickHandler = callback;
-    this.getElement().querySelector(`.film-details__comments-wrap`).addEventListener(`click`, this._commentDeleteClickHandler);
+    this.getElement().querySelector(`.film-details__comments-list`).addEventListener(`click`, this._commentDeleteClickHandler);
   }
 
 

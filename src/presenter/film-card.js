@@ -97,17 +97,6 @@ export default class FilmCardPresenter {
     if (evt.target.tagName !== HTMLTagName.BUTTON) {
       return;
     }
-    // const a = Object.assign({}, this._film.comments.previousComments.filter((comment) => comment.id !== +evt.target.value));
-    // const b = Object.assign({}, this._film.comments, {previousComments: a});
-    // const c = Object.assign({}, this._film, {comments: b});
-    // console.log(a);
-    // console.log(b);
-    // console.log(c);
-    // console.log(evt.target.value);
-    // console.log(Object.assign({}, this._film, {comments: Object.assign({},
-    //     this._film.comments, {previousComments: this._film.comments.previousComments.slice().filter((comment) => comment.id !== +evt.target.value)})}));
-    // console.log(Object.assign({}, this._film, {comments: Object.assign({},
-    //     this._film.comments, {previousComments: this._film.comments.previousComments.slice().filter((comment) => comment.id === +evt.target.value)})}));
     this._changeData(
         userActions.UPDATE_FILM,
         updateTypes.PATCH,
