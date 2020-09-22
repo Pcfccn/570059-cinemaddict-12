@@ -1,5 +1,6 @@
 import {emojyes} from "../constants";
 import SmartView from "./smart";
+import he from "he";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
@@ -120,7 +121,7 @@ const createFilmCardPopupTemplate = (data) => {
               </div>
 
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment.comment}</textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(newComment.comment)}</textarea>
               </label>
 
               <div class="film-details__emoji-list">
