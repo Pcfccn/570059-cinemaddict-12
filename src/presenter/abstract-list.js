@@ -71,9 +71,6 @@ export default class AbstractFilmListPresenter {
       case userActions.SUBMIT_COMMENT:
         this._filmsModel.addComment(updateType, update);
         break;
-      case userActions.DELETE_COMMENT:
-        this._filmsModel.deleteComment(updateType, update);
-        break;
     }
   }
 }
