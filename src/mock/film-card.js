@@ -43,6 +43,7 @@ const createCommentDate = () => {
 
 const generateComment = () => {
   return {
+    id: generateFakeId(),
     emogi: getRandomArrayElement(emojyes),
     date: createCommentDate(),
     autor: getRandomArrayElement(actors),

@@ -15,7 +15,7 @@ const render = (container, element, place = renderPosition.BEFORE_END) => {
       container.append(element);
       break;
     case renderPosition.AFTER_BEGIN:
-      container.prepand(element);
+      container.prepend(element);
   }
 };
 
@@ -26,6 +26,10 @@ const createElement = (template) => {
 };
 
 const remove = (component) => {
+  if (component === null) {
+    return;
+  }
+
   if (!(component instanceof AbstractView)) {
     throw new Error(`Can remove only components`);
   }
