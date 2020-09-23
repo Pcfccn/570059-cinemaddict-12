@@ -11,8 +11,6 @@ export default class FilmsListExtraPresenter extends AbstractFilmListPresenter {
     this._extraType = extraType;
     this._filmListSection = new FilmsListExtraContainerView(this._extraType);
     this._filmsListContainer = this._filmListSection.getElement().querySelector(`.films-list__container`);
-
-    this._filmsModel.addObserver(this._мodelEventHandler);
   }
 
   init() {

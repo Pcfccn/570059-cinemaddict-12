@@ -33,6 +33,9 @@ export default class AbstractFilmListPresenter {
   _мodelEventHandler(updateType, updatedFilm) {
     switch (updateType) {
       case updateTypes.PATCH:
+        if (!this._filmPresenter[updatedFilm.id]) {
+          return;
+        }
         this._filmPresenter[updatedFilm.id].init(this._siteMainFilmsListContainer, updatedFilm);
         break;
       case updateTypes.MINOR:
