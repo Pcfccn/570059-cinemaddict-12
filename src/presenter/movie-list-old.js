@@ -68,7 +68,7 @@ export default class MovieListPresenter {
         this._renderBoard();
         break;
       case updateTypes.MAJOR:
-        this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._clearBoard(true, true);
         this._renderBoard();
         break;
     }
@@ -81,8 +81,8 @@ export default class MovieListPresenter {
 
     this._currentSortType = sortType;
 
-    this._clearBoard({resetRenderedFilmCount: true});
-    this._renderBoard();
+    this._clearBoard(true);
+    // this._renderBoard();
   }
 
   _renderSort() {
@@ -92,14 +92,15 @@ export default class MovieListPresenter {
     render(this._siteMainFilms, this._sortComponent, renderPosition.AFTER_BEGIN);
   }
 
-  _clearBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
+  _clearBoard(resetRenderedFilmCount = false, resetSortType = false) {
     const filmCount = this._getFilms().length;
 
+    // console.log(this._filmPresenter);
     Object
       .values(this._filmPresenter)
       .forEach((presenter) => presenter.destroy());
     this._filmPresenter = {};
-
+    // console.log(this._filmPresenter);
     remove(this._sortComponent);
     remove(this._noFilms);
     remove(this._loadMoreButton);

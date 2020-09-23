@@ -24,7 +24,6 @@ export default class FilmCardPresenter {
   init(container, film) {
     this._film = film;
     this._container = container;
-
     const previousFilmCard = this._filmCard;
     const previousFilmPopup = this._filmPopup;
 
