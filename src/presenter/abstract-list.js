@@ -2,10 +2,9 @@ import {updateTypes, userActions} from "../constants";
 import FilmCardPresenter from "./film-card";
 
 export default class AbstractFilmListPresenter {
-  constructor(filmsModel) {
+  constructor(siteMainElement, filmsModel) {
+    this._siteMainElement = siteMainElement;
     this._filmsModel = filmsModel;
-    this._siteMainElement = document.querySelector(`.main`);
-    this._siteMainFilms = this._siteMainElement.querySelector(`.films`);
     this._filmPresenter = {};
 
     this._modeChangeHandler = this._modeChangeHandler.bind(this);

@@ -3,7 +3,7 @@ import HeaderProfileView from './view/header-profile.js';
 import {generateFilmCards} from './mock/film-card.js';
 import {render} from './utils/render';
 import FilmsModel from './model/movies.js';
-import AppPresenter from './presenter/app-presenter.js';
+import MainPresenter from './presenter/main-presenter.js';
 import FilterModel from './model/filter.js';
 
 const films = generateFilmCards();
@@ -19,6 +19,6 @@ const siteFooterElement = document.querySelector(`.footer`);
 
 render(siteHeaderElement, new HeaderProfileView());
 
-new AppPresenter(siteMainElement, filterModel, filmsModel).init();
+new MainPresenter(siteMainElement, filterModel, filmsModel).init();
 
 render(siteFooterElement, new FooterStatisticsView(filmsModel.getFilms().length));

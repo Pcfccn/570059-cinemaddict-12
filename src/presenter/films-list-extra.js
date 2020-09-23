@@ -1,19 +1,18 @@
-import {EXSTRA_MOVIES_COUNT, extraContainersName} from "../constants";
-import {getTopCommentedMovies, getTopRatedMovies} from "../utils/filter";
+import {EXSTRA_MOVIES_COUNT} from "../constants";
 import {render} from "../utils/render";
-import FilmsListExtraContainerView from "../view/films-list-extra-container";
 import AbstractFilmListPresenter from "./abstract-list";
 import FilmCardPresenter from "./film-card";
 
 export default class FilmsListExtraPresenter extends AbstractFilmListPresenter {
-  constructor(filmsModel, extraType) {
-    super(filmsModel);
-    this._extraType = extraType;
-    this._filmListSection = new FilmsListExtraContainerView(this._extraType);
-    this._filmsListContainer = this._filmListSection.getElement().querySelector(`.films-list__container`);
+  constructor(siteMainElement, filmsModel, extraMovies, filmListSection, filmsListContainer) {
+    super(siteMainElement, filmsModel);
+    this._extraMovies = extraMovies;
+    this._filmListSection = filmListSection;
+    this._filmsListContainer = filmsListContainer;
   }
 
   init() {
+    this._siteMainFilms = this._siteMainElement.querySelector(`.films`);
     this._renderBoard();
   }
 
@@ -24,17 +23,17 @@ export default class FilmsListExtraPresenter extends AbstractFilmListPresenter {
   }
 
   _renderExtraFilms() {
-    let extraMovies = [];
-    if (this._extraType === extraContainersName.TOP_RATED) {
-      extraMovies = getTopRatedMovies(this._getFilms());
-    }
+    // let extraMovies = [];
+    // if (this._extraType === extraContainersName.TOP_RATED) {
+    //   extraMovies = getTopRatedMovies(this._getFilms());
+    // }
 
-    if (this._extraType === extraContainersName.MOST_COMMENTED) {
-      extraMovies = getTopCommentedMovies(this._getFilms());
-    }
+    // if (this._extraType === extraContainersName.MOST_COMMENTED) {
+    //   extraMovies = getTopCommentedMovies(this._getFilms());
+    // }
 
     for (let i = 0; i < EXSTRA_MOVIES_COUNT; i++) {
-      this._renderFilm(this._filmsListContainer, extraMovies[i]);
+      this._renderFilm(this._filmsListContainer, this._extraMovies[i]);
     }
     render(this._siteMainFilms, this._filmListSection);
   }
