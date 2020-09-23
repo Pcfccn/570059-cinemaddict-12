@@ -6,10 +6,12 @@ import SortView from "../view/main-sort";
 import NoFilmsView from "../view/no-films";
 import LoadMoreButtonView from "../view/load-more-button";
 import AbstractFilmListPresenter from "./abstract-list";
+import {filterFilms} from "../utils/filter";
 
 export default class FilmsListPresenter extends AbstractFilmListPresenter {
-  constructor(filmsModel) {
+  constructor(filmsModel, filterModel) {
     super(filmsModel);
+    this._filterModel = filterModel;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._EXSTRA_MOVIES_COUNT = EXSTRA_MOVIES_COUNT;
     this._currentSortType = sortTypes.DEFAULT;
@@ -21,6 +23,8 @@ export default class FilmsListPresenter extends AbstractFilmListPresenter {
 
     this._loadMoreButtonClickHandler = this._loadMoreButtonClickHandler.bind(this);
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
+
+    this._filterModel.addObserver(this._мodelEventHandler);
   }
 
   init() {
@@ -31,13 +35,16 @@ export default class FilmsListPresenter extends AbstractFilmListPresenter {
   }
 
   _getFilms() {
+    const filterType = this._filterModel.getFilter();
+    const films = this._filmsModel.getFilms();
+    const filtredFilms = filterFilms(films, filterType);
     switch (this._currentSortType) {
       case sortTypes.BY_DATE:
-        return this._filmsModel.getFilms().slice().sort(sortDateDown);
+        return filtredFilms.slice().sort(sortDateDown);
       case sortTypes.BY_RATING:
-        return this._filmsModel.getFilms().slice().sort(sortRatingDown);
+        return filtredFilms.slice().sort(sortRatingDown);
     }
-    return this._filmsModel.getFilms();
+    return filtredFilms;
   }
 
 

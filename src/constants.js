@@ -101,6 +101,13 @@ const updateTypes = {
   MAJOR: `MAJOR`
 };
 
+const filterTypes = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`,
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
   ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName,
-  keyboardKey, mode, userActions, updateTypes};
+  keyboardKey, mode, userActions, updateTypes, filterTypes};

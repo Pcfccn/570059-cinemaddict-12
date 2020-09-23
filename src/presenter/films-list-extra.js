@@ -1,5 +1,5 @@
 import {EXSTRA_MOVIES_COUNT, extraContainersName} from "../constants";
-import {getTopCommentedMovies, getTopRatedMovies} from "../mock/filter";
+import {getTopCommentedMovies, getTopRatedMovies} from "../utils/filter";
 import {render} from "../utils/render";
 import FilmsListExtraContainerView from "../view/films-list-extra-container";
 import AbstractFilmListPresenter from "./abstract-list";
