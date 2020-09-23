@@ -141,21 +141,21 @@ export default class FilmCardPresenter {
   _watchlistClickHandler() {
     this._changeData(
         userActions.UPDATE_FILM,
-        updateTypes.MINOR,
+        updateTypes.PATCH,
         Object.assign({}, this._film, {isInTheWatchlist: !this._film.isInTheWatchlist}));
   }
 
   _watchedClickHandler() {
     this._changeData(
         userActions.UPDATE_FILM,
-        updateTypes.MINOR,
+        updateTypes.PATCH,
         Object.assign({}, this._film, {isWatched: !this._film.isWatched}));
   }
 
   _favoritesClickHandler() {
     this._changeData(
         userActions.UPDATE_FILM,
-        updateTypes.MINOR,
+        updateTypes.PATCH,
         Object.assign({}, this._film, {isFavorite: !this._film.isFavorite}));
   }
 }
