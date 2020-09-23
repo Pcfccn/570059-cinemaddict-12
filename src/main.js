@@ -4,10 +4,8 @@ import FilterView from './view/filter.js';
 import {generateFilmCards} from './mock/film-card.js';
 import {getFilterElementCount} from './mock/filter.js';
 import {render} from './utils/render';
-import FilmsListPresenter from './presenter/films-list';
 import FilmsModel from './model/movies.js';
-import FilmsListExtraPresenter from './presenter/films-list-extra.js';
-import {extraContainersName} from './constants.js';
+import AppPresenter from './presenter/app-presenter.js';
 
 
 const films = generateFilmCards();
@@ -23,8 +21,6 @@ const siteFooterElement = document.querySelector(`.footer`);
 render(siteHeaderElement, new HeaderProfileView());
 render(siteMainElement, new FilterView(filteredElementCount));
 
-new FilmsListPresenter(filmsModel).init();
-new FilmsListExtraPresenter(filmsModel, extraContainersName.TOP_RATED).init();
-new FilmsListExtraPresenter(filmsModel, extraContainersName.MOST_COMMENTED).init();
+new AppPresenter(filmsModel).init();
 
 render(siteFooterElement, new FooterStatisticsView(filmsModel.getFilms().length));
