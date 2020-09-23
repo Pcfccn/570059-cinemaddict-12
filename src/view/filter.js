@@ -18,7 +18,9 @@ const createFilterTemplate = (filter, currentType) => {
       ? `main-navigation__item--active`
       : ``}" data-filter-type="${filterTypes.FAVORITES}">Favorites <span class="main-navigation__item-count">${filter.favorite}</span></a>
       </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
+      <a href="#stats" class="main-navigation__additional ${currentType === filterTypes.STATISTIC
+      ? `main-navigation__item--active`
+      : ``}" data-filter-type="${filterTypes.STATISTIC}">Stats</a>
     </nav>`
   );
 };

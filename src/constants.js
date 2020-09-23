@@ -106,6 +106,7 @@ const filterTypes = {
   WATCHLIST: `watchlist`,
   HISTORY: `history`,
   FAVORITES: `favorites`,
+  STATISTIC: `statistic`
 };
 
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
