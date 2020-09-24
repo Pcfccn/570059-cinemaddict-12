@@ -55,7 +55,7 @@ export default class FilmsListPresenter extends AbstractFilmListPresenter {
 
     this._currentSortType = sortType;
 
-    this._clearBoard(true);
+    this.clearBoard(true);
     this._renderBoard();
   }
 
@@ -66,7 +66,7 @@ export default class FilmsListPresenter extends AbstractFilmListPresenter {
     render(this._siteMainFilms, this._sortComponent, renderPosition.AFTER_BEGIN);
   }
 
-  _clearBoard(resetRenderedFilmCount = false, resetSortType = false) {
+  clearBoard(resetRenderedFilmCount = false, resetSortType = false) {
     const filmCount = this._getFilms().length;
     Object
       .values(this._filmPresenter)
@@ -88,6 +88,11 @@ export default class FilmsListPresenter extends AbstractFilmListPresenter {
     }
   }
 
+  deepClearBoard() {
+    this.clearBoard(true, true);
+    remove(this._filmsListContainerView);
+  }
+
   _loadMoreButtonClickHandler() {
     const filmCount = this._getFilms().length;
     const newRenderedFilmCount = Math.min(filmCount, this._renderedFilmCount + FILM_COUNT_PER_STEP);
@@ -100,7 +105,8 @@ export default class FilmsListPresenter extends AbstractFilmListPresenter {
   }
 
   _renderFilmsListContainer() {
-    render(this._siteMainElement, new FilmsListContainerView());
+    this._filmsListContainerView = new FilmsListContainerView();
+    render(this._siteMainElement, this._filmsListContainerView);
   }
 
   _renderFilmsOnTheBoard() {

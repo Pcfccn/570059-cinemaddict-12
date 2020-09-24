@@ -59,7 +59,7 @@ export default class StatisticView extends AbstractView {
     super();
     this._data = data;
     this._callback = {};
-    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    // this._watchedClickHandler = this._watchedClickHandler.bind(this);
   }
 
   getTemplate() {

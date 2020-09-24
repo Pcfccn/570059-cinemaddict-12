@@ -110,6 +110,11 @@ const filterTypes = {
   STATISTIC: `statistic`
 };
 
+const routes = {
+  MAIN: `main`,
+  STATISTIC: `statistic`
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
   ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName,
-  keyboardKey, mode, userActions, updateTypes, filterTypes};
+  keyboardKey, mode, userActions, updateTypes, filterTypes, routes};
