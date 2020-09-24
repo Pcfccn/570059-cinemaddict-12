@@ -66,13 +66,13 @@ export default class StatisticView extends AbstractView {
     return createStatisticTemplate(this._filmcard);
   }
 
-  _watchedClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.watchedClickHandler();
-  }
+  // _watchedClickHandler(evt) {
+  //   evt.preventDefault();
+  //   this._callback.watchedClickHandler();
+  // }
 
-  setWatchlistClickHandler(callback) {
-    this._callback.watchlistClickHandler = callback;
-    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._watchlistClickHandler);
-  }
+  // setWatchlistClickHandler(callback) {
+  //   this._callback.watchlistClickHandler = callback;
+  //   this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._watchlistClickHandler);
+  // }
 }

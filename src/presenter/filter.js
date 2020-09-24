@@ -2,7 +2,6 @@ import {filterTypes, updateTypes} from "../constants";
 import {getFilterElementCount} from "../utils/filter";
 import {remove, render, replace} from "../utils/render";
 import FilterView from "../view/filter";
-import StatisticView from "../view/statistic";
 
 export default class FilterPresenter {
   constructor(filterContainer, filterModel, filmsModel) {
@@ -36,7 +35,6 @@ export default class FilterPresenter {
 
     replace(this._filterComponent, prevFilterComponent);
     remove(prevFilterComponent);
-debugger
   }
 
   _handleModelEvent() {
@@ -48,11 +46,10 @@ debugger
       return;
     }
 
-    // if (filterType === filterTypes.STATISTIC) {
-    //   const a = new StatisticView();
-    //   render(this._filterContainer, a);
-    //   return;
-    // }
+    if (filterType === filterTypes.STATISTIC) {
+      this._filterModel.setFilter(updateTypes.SHOW_STATS, filterType);
+      return;
+    }
 
     this._filterModel.setFilter(updateTypes.MAJOR, filterType);
   }

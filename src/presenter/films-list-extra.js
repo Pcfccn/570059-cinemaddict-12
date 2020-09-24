@@ -23,15 +23,6 @@ export default class FilmsListExtraPresenter extends AbstractFilmListPresenter {
   }
 
   _renderExtraFilms() {
-    // let extraMovies = [];
-    // if (this._extraType === extraContainersName.TOP_RATED) {
-    //   extraMovies = getTopRatedMovies(this._getFilms());
-    // }
-
-    // if (this._extraType === extraContainersName.MOST_COMMENTED) {
-    //   extraMovies = getTopCommentedMovies(this._getFilms());
-    // }
-
     for (let i = 0; i < EXSTRA_MOVIES_COUNT; i++) {
       this._renderFilm(this._filmsListContainer, this._extraMovies[i]);
     }

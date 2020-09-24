@@ -45,6 +45,11 @@ export default class AbstractFilmListPresenter {
         this._clearBoard(true, true);
         this._renderBoard();
         break;
+      case updateTypes.SHOW_STATS:
+        this._clearBoard(true, true);
+        // render(this._siteMainElement, new StatisticView());
+        // this._renderBoard();
+        break;
     }
   }
 

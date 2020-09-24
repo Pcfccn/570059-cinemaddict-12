@@ -98,7 +98,8 @@ const userActions = {
 const updateTypes = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
-  MAJOR: `MAJOR`
+  MAJOR: `MAJOR`,
+  SHOW_STATS: `SHOw_STATS`
 };
 
 const filterTypes = {

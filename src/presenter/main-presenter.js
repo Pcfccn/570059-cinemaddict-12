@@ -1,9 +1,10 @@
-import {extraContainersName} from "../constants";
+import {extraContainersName, filterTypes} from "../constants";
 import {getTopCommentedMovies, getTopRatedMovies} from "../utils/filter";
 import FilmsListExtraContainerView from "../view/films-list-extra-container";
 import FilmsListPresenter from "./films-list";
 import FilmsListExtraPresenter from "./films-list-extra";
 import FilterPresenter from "./filter";
+import StatisticPresenter from "./statistic";
 
 export default class MainPresenter {
   constructor(siteMainElement, filterModel, filmsModel) {
@@ -13,6 +14,12 @@ export default class MainPresenter {
   }
   init() {
     new FilterPresenter(this._siteMainElement, this._filterModel, this._filmsModel).init();
+
+    if (this._filterModel.getFilter() === filterTypes.STATISTIC) {
+      new StatisticPresenter(this._siteMainElement, this._filmsModel).init();
+      return;
+    }
+
     new FilmsListPresenter(this._siteMainElement, this._filmsModel, this._filterModel).init();
 
     const films = this._filmsModel.getFilms();
