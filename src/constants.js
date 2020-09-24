@@ -76,7 +76,8 @@ const sortTypes = {
 
 const HTMLTagName = {
   a: `A`,
-  BUTTON: `BUTTON`
+  BUTTON: `BUTTON`,
+  INPUT: `INPUT`,
 };
 
 const keyboardKey = {
@@ -115,6 +116,14 @@ const routes = {
   STATISTIC: `statistic`
 };
 
+const timeRange = {
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+  ALL_TIME: `allTime`
+};
+
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
   ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName,
-  keyboardKey, mode, userActions, updateTypes, filterTypes, routes};
+  keyboardKey, mode, userActions, updateTypes, filterTypes, routes, timeRange};

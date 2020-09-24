@@ -2,18 +2,17 @@ import AbstractView from "./abstract";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-const createChartTemplate = (container) => {
+const createChartTemplate = (container, dataObject) => {
   const BAR_HEIGHT = 50;
   // Обязательно рассчитайте высоту canvas, она зависит от количества элементов диаграммы
   container.height = BAR_HEIGHT * 5;
-
   const myChart = new Chart(container, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: [`Sci-Fi`, `Animation`, `Fantasy`, `Comedy`, `TV Series`],
+      labels: Object.keys(dataObject),
       datasets: [{
-        data: [11, 8, 7, 4, 3],
+        data: Object.values(dataObject),
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
         anchor: `start`
@@ -68,15 +67,16 @@ const createChartTemplate = (container) => {
 };
 
 export default class ChartView extends AbstractView {
-  constructor(container) {
+  constructor(container, dataObject) {
     super();
     this._container = container;
+    this._dataObject = dataObject;
     this._callback = {};
     // this._watchedClickHandler = this._watchedClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createChartTemplate(this._container);
+    return createChartTemplate(this._container, this._dataObject);
   }
 
   // _watchedClickHandler(evt) {
