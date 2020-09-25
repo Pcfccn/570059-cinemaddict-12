@@ -18,7 +18,9 @@ const createFilterTemplate = (filter, currentType) => {
       ? `main-navigation__item--active`
       : ``}" data-filter-type="${filterTypes.FAVORITES}">Favorites <span class="main-navigation__item-count">${filter.favorite}</span></a>
       </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
+      <a href="#stats" class="main-navigation__additional ${currentType === filterTypes.STATISTIC
+      ? `main-navigation__item--active`
+      : ``}" data-filter-type="${filterTypes.STATISTIC}">Stats</a>
     </nav>`
   );
 };
@@ -43,10 +45,12 @@ export default class FilterView extends AbstractView {
       return;
     }
     this._callback.filterTypeChange(evt.target.dataset.filterType);
+    this._callback.filterTypeChange2(evt.target.dataset.filterType);
   }
 
-  setFilterTypeChangeHandler(callback) {
+  setFilterTypeChangeHandler(callback, callback2) {
     this._callback.filterTypeChange = callback;
+    this._callback.filterTypeChange2 = callback2;
     this.getElement().addEventListener(`click`, this._filterTypeChangeHandler);
   }
 }
