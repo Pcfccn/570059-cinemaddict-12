@@ -38,17 +38,17 @@ export default class AbstractFilmListPresenter {
         this._filmPresenter[updatedFilm.id].init(this._siteMainFilmsListContainer, updatedFilm);
         break;
       case updateTypes.MINOR:
-        this._clearBoard();
+        this.clearBoard();
         this._renderBoard();
         break;
       case updateTypes.MAJOR:
-        this._clearBoard(true, true);
+        this.clearBoard(true, true);
         this._renderBoard();
         break;
     }
   }
 
-  _clearBoard() {
+  clearBoard() {
     Object
       .values(this._filmPresenter)
       .forEach((presenter) => presenter.destroy());
