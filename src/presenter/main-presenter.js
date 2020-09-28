@@ -46,7 +46,7 @@ export default class MainPresenter {
     this._filmsListCommentedExtraPresenter.init();
   }
 
-  _destroyMainPresener() {
+  destroyMainPresener() {
     this._filterPresenter.destroy();
     if (this._statisticPresenter) {
       this._statisticPresenter.destroy();
@@ -68,7 +68,7 @@ export default class MainPresenter {
     }
     if (this._route !== newRoute) {
       this._route = newRoute;
-      this._destroyMainPresener();
+      this.destroyMainPresener();
       this.init();
     }
   }

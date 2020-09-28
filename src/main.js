@@ -1,15 +1,16 @@
 import FooterStatisticsView from './view/footer-statistic.js';
 import HeaderProfileView from './view/header-profile.js';
-import {generateFilmCards} from './mock/film-card.js';
-import {render} from './utils/render';
+import {render, remove} from './utils/render';
 import FilmsModel from './model/movies.js';
 import MainPresenter from './presenter/main-presenter.js';
 import FilterModel from './model/filter.js';
+import Api from './api.js';
+import {AUTHORIZATION, END_POINT} from './constants.js';
+import LoadingView from './view/loading.js';
 
-const films = generateFilmCards();
+const api = new Api(END_POINT, AUTHORIZATION);
 
 const filmsModel = new FilmsModel();
-filmsModel.setFilms(films);
 
 const filterModel = new FilterModel();
 
@@ -19,6 +20,23 @@ const siteFooterElement = document.querySelector(`.footer`);
 
 render(siteHeaderElement, new HeaderProfileView());
 
-new MainPresenter(siteMainElement, filterModel, filmsModel).init();
+const loadingComponent = new LoadingView();
+const mainPresenter = new MainPresenter(siteMainElement, filterModel, filmsModel);
+let footerComponent = new FooterStatisticsView(filmsModel.getFilms().length);
 
-render(siteFooterElement, new FooterStatisticsView(filmsModel.getFilms().length));
+mainPresenter.init();
+render(siteMainElement, loadingComponent);
+render(siteFooterElement, footerComponent);
+
+api.getFilms()
+.then((movies) => {
+  filmsModel.setFilms(movies.map((movie) => Api.adaptToClient(movie)));
+
+  remove(loadingComponent);
+  mainPresenter.destroyMainPresener();
+  remove(footerComponent);
+
+  footerComponent = new FooterStatisticsView(filmsModel.getFilms().length);
+  mainPresenter.init();
+  render(siteFooterElement, footerComponent);
+});

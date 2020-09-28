@@ -5,7 +5,10 @@ import he from "he";
 const getInputState = (value) => value ? ` checked` : ``;
 
 const createComments = (comments, commentCount) => {
-  const commentsTemplate = comments.previousComments.map((currentComment) => {
+  if (typeof (comments) === `object`) {
+    comments = Object.values(comments);
+  }
+  const commentsTemplate = comments.map((currentComment) => {
     return (
       `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
@@ -42,7 +45,7 @@ const createFilmCardPopupTemplate = (data) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
+              <img class="film-details__poster-img" src="${poster}" alt="">
 
               <p class="film-details__age">${ageRating}</p>
             </div>
