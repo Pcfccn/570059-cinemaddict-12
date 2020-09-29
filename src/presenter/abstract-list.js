@@ -2,9 +2,10 @@ import {updateTypes, userActions} from "../constants";
 import FilmCardPresenter from "./film-card";
 
 export default class AbstractFilmListPresenter {
-  constructor(siteMainElement, filmsModel) {
+  constructor(siteMainElement, filmsModel, api) {
     this._siteMainElement = siteMainElement;
     this._filmsModel = filmsModel;
+    this._api = api;
     this._filmPresenter = {};
 
     this._modeChangeHandler = this._modeChangeHandler.bind(this);
@@ -56,9 +57,10 @@ export default class AbstractFilmListPresenter {
   }
 
   _renderFilm(container, film) {
-    const filmCardPresenter = new FilmCardPresenter(this._viewActionHandler, this._modeChangeHandler);
+    const filmCardPresenter = new FilmCardPresenter(this._viewActionHandler, this._modeChangeHandler, this._api);
     filmCardPresenter.init(container, film);
     this._filmPresenter[film.id] = filmCardPresenter;
+    // console.log(this._api);
   }
 
   _renderFilms(container, films) {

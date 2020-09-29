@@ -21,7 +21,7 @@ const siteFooterElement = document.querySelector(`.footer`);
 render(siteHeaderElement, new HeaderProfileView());
 
 const loadingComponent = new LoadingView();
-const mainPresenter = new MainPresenter(siteMainElement, filterModel, filmsModel);
+const mainPresenter = new MainPresenter(siteMainElement, filterModel, filmsModel, api);
 let footerComponent = new FooterStatisticsView(filmsModel.getFilms().length);
 
 mainPresenter.init();

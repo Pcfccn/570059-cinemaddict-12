@@ -8,11 +8,12 @@ import FilterPresenter from "./filter";
 import StatisticPresenter from "./statistic";
 
 export default class MainPresenter {
-  constructor(siteMainElement, filterModel, filmsModel) {
+  constructor(siteMainElement, filterModel, filmsModel, api) {
     this._siteMainElement = siteMainElement;
     this._filterModel = filterModel;
     this._filmsModel = filmsModel;
     this._route = routes.MAIN;
+    this._api = api;
 
     this._routeChancgeHandler = this._routeChancgeHandler.bind(this);
   }
@@ -26,7 +27,7 @@ export default class MainPresenter {
       return;
     }
 
-    this._filmsListPresenter = new FilmsListPresenter(this._siteMainElement, this._filmsModel, this._filterModel);
+    this._filmsListPresenter = new FilmsListPresenter(this._siteMainElement, this._filmsModel, this._api, this._filterModel);
     this._filmsListPresenter.init();
 
     const films = this._filmsModel.getFilms();
@@ -34,14 +35,14 @@ export default class MainPresenter {
     const topRatedMovies = getTopRatedMovies(films);
     this._topRatedMoviesSection = new FilmsListExtraContainerView(extraContainersName.TOP_RATED);
     this._topRatedMoviesContainer = this._topRatedMoviesSection.getElement().querySelector(`.films-list__container`);
-    this._filmsListRatedExtraPresenter = new FilmsListExtraPresenter(this._siteMainElement, this._filmsModel, topRatedMovies,
+    this._filmsListRatedExtraPresenter = new FilmsListExtraPresenter(this._siteMainElement, this._filmsModel, this._api, topRatedMovies,
         this._topRatedMoviesSection, this._topRatedMoviesContainer);
     this._filmsListRatedExtraPresenter.init();
 
     const topCommentedMovies = getTopCommentedMovies(films);
     this._topCommentedMoviesSection = new FilmsListExtraContainerView(extraContainersName.TOP_RATED);
     this._topCommentedMoviesContainer = this._topCommentedMoviesSection.getElement().querySelector(`.films-list__container`);
-    this._filmsListCommentedExtraPresenter = new FilmsListExtraPresenter(this._siteMainElement, this._filmsModel, topCommentedMovies,
+    this._filmsListCommentedExtraPresenter = new FilmsListExtraPresenter(this._siteMainElement, this._filmsModel, this._api, topCommentedMovies,
         this._topCommentedMoviesSection, this._topCommentedMoviesContainer);
     this._filmsListCommentedExtraPresenter.init();
   }

@@ -3,7 +3,9 @@ import {formateCommentDate} from "./utils/film";
 
 const Method = {
   GET: `GET`,
-  PUT: `PUT`
+  PUT: `PUT`,
+  POST: `POST`,
+  DELETE: `DELETE`
 };
 
 const SuccessHTTPStatusRange = {
@@ -27,11 +29,19 @@ export default class Api {
       .then(Api.toJSON);
   }
 
-  updateFilm(film) {
+  deleteComment(id) {
     return this._load({
-      url: `/comments/${film}`,
-      method: Method.PUT,
-      body: JSON.stringify(film),
+      url: `comments/${id}`,
+      method: Method.DELETE
+    });
+  }
+
+  addComment(movieId, comment) {
+    const adaptedComment = Api.adaptToServer(comment);
+    return this._load({
+      url: `comments/${movieId}`,
+      method: Method.POST,
+      body: JSON.stringify(adaptedComment),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON);
@@ -120,23 +130,19 @@ export default class Api {
   }
 
   static adaptToServer(comment) {
-    const adaptedTask = Object.assign(
+    const adaptedComment = Object.assign(
         {},
         comment,
         {
-          // "due_date": task.dueDate instanceof Date ? task.dueDate.toISOString() : null, // На сервере дата хранится в ISO формате
-          // "is_archived": task.isArchive,
-          // "is_favorite": task.isFavorite,
-          // "repeating_days": task.repeating
+          date: new Date().toISOString()
         }
     );
 
     // Ненужные ключи мы удаляем
-    delete adaptedTask.dueDate;
-    delete adaptedTask.isArchive;
-    delete adaptedTask.isFavorite;
-    delete adaptedTask.repeating;
-
-    return adaptedTask;
+    delete adaptedComment.dueDate;
+    delete adaptedComment.isArchive;
+    delete adaptedComment.isFavorite;
+    delete adaptedComment.repeating;
+    return adaptedComment;
   }
 }

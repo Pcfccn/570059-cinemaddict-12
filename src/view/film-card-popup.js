@@ -1,24 +1,25 @@
 import {emojyes} from "../constants";
 import SmartView from "./smart";
 import he from "he";
+import {formateCommentDate} from "../utils/film";
 
 const getInputState = (value) => value ? ` checked` : ``;
 
 const createComments = (comments, commentCount) => {
-  if (typeof (comments) === `object`) {
-    comments = Object.values(comments);
+  if (typeof (comments.previousComments) === `object`) {
+    comments = Object.values(comments.previousComments);
   }
   const commentsTemplate = comments.map((currentComment) => {
     return (
       `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
-          <img src="./images/emoji/${currentComment.emogi}.png" width="55" height="55" alt="emoji-${currentComment.emogi}">
+          <img src="./images/emoji/${currentComment.emotion}.png" width="55" height="55" alt="emoji-${currentComment.emotion}">
         </span>
         <div>
-          <p class="film-details__comment-text">${currentComment.message}</p>
+          <p class="film-details__comment-text">${currentComment.comment}</p>
           <p class="film-details__comment-info">
-            <span class="film-details__comment-author">${currentComment.autor}</span>
-            <span class="film-details__comment-day">${currentComment.date}</span>
+            <span class="film-details__comment-author">${currentComment.author}</span>
+            <span class="film-details__comment-day">${formateCommentDate(currentComment.date)}</span>
             <button class="film-details__comment-delete" value="${currentComment.id}">Delete</button>
           </p>
         </div>
@@ -160,7 +161,6 @@ export default class FilmCardPopupView extends SmartView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;
-
     this._data = FilmCardPopupView.parseFilmToData(filmCard);
     this._callback = {};
 
@@ -250,9 +250,8 @@ export default class FilmCardPopupView extends SmartView {
         }
       }
       pressed.clear();
-      // this.getElement().querySelector(`.film-details__inner`).submit();
       FilmCardPopupView.parseDataToFilm(this._data);
-      this._callback.submitPopupHandler();
+      this._callback.submitPopupHandler(this._filmCard.id, this._data.comments.newComment);
     };
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, checkKeys);
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keyup`, function (evt) {

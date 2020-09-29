@@ -9,8 +9,8 @@ import AbstractFilmListPresenter from "./abstract-list";
 import {filterFilms} from "../utils/filter";
 
 export default class FilmsListPresenter extends AbstractFilmListPresenter {
-  constructor(siteMainElement, filmsModel, filterModel) {
-    super(siteMainElement, filmsModel);
+  constructor(siteMainElement, filmsModel, api, filterModel) {
+    super(siteMainElement, filmsModel, api);
     this._filterModel = filterModel;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._EXSTRA_MOVIES_COUNT = EXSTRA_MOVIES_COUNT;
