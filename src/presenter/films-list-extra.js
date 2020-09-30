@@ -4,8 +4,8 @@ import AbstractFilmListPresenter from "./abstract-list";
 import FilmCardPresenter from "./film-card";
 
 export default class FilmsListExtraPresenter extends AbstractFilmListPresenter {
-  constructor(siteMainElement, filmsModel, extraMovies, filmListSection, filmsListContainer) {
-    super(siteMainElement, filmsModel);
+  constructor(siteMainElement, filmsModel, api, extraMovies, filmListSection, filmsListContainer) {
+    super(siteMainElement, filmsModel, api);
     this._extraMovies = extraMovies;
     this._filmListSection = filmListSection;
     this._filmsListContainer = filmsListContainer;
@@ -17,7 +17,7 @@ export default class FilmsListExtraPresenter extends AbstractFilmListPresenter {
   }
 
   _renderFilm(container, film) {
-    const filmCardPresenter = new FilmCardPresenter(this._viewActionHandler, this._modeChangeHandler);
+    const filmCardPresenter = new FilmCardPresenter(this._viewActionHandler, this._modeChangeHandler, this._api);
     filmCardPresenter.init(container, film);
     this._filmPresenter[film.id] = filmCardPresenter;
   }
