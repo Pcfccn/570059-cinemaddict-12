@@ -3,16 +3,16 @@ import {getRandomInteger} from "../utils/common";
 
 
 const getOneChartRandomData = () => {
-  let oneChartData = {};
+  const oneChartData = {};
   for (let i = 0; i < genres.length; i++) {
-    let genre = genres[i];
+    const genre = genres[i];
     oneChartData[genre] = getRandomInteger(0, 3);
   }
   return oneChartData;
 };
 
 const getOneStatisticData = (arr) =>{
-  let stat = {};
+  const stat = {};
   stat.youWatched = Object.values(arr).reduce((sum, value) => sum + value, 0);
   stat.totalDuration = getRandomInteger(15, 24 * 60);
   stat.topGenre = Object.entries(arr).reduce((acc, curr) => acc[1] > curr[1] ? acc : curr)[0];
@@ -21,7 +21,7 @@ const getOneStatisticData = (arr) =>{
 
 
 const increase = (someData) => {
-  let newData = Object.assign({}, someData);
+  const newData = Object.assign({}, someData);
   for (let i = 0; i < Object.keys(someData).length; i++) {
     newData[Object.keys(newData)[i]] = Math.floor(Object.values(newData)[i] * (Math.random() + 1) * 2) + 1;
   }

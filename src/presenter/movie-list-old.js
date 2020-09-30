@@ -162,7 +162,7 @@ export default class MovieListPresenter {
 
   _renderFilmsOnTheBoard() {
     this._siteMainFilmsListContainer = this._siteMainFilmsList.querySelector(`.films-list__container`);
-    let films = this._getFilms().slice(0, Math.min(this._getFilms().length, FILM_COUNT_PER_STEP));
+    const films = this._getFilms().slice(0, Math.min(this._getFilms().length, FILM_COUNT_PER_STEP));
     this._renderFilms(films);
 
     if (this._getFilms().length > FILM_COUNT_PER_STEP) {

@@ -241,10 +241,10 @@ export default class FilmCardPopupView extends SmartView {
   }
 
   _setCommentFormSubmitHandler() {
-    let pressed = new Set();
+    const pressed = new Set();
     const checkKeys = (evt) => {
       pressed.add(evt.key);
-      for (let key of [`Enter`, `Control`]) {
+      for (const key of [`Enter`, `Control`]) {
         if (!pressed.has(key)) {
           return;
         }
