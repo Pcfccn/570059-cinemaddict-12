@@ -2,6 +2,9 @@ const FILM_COUNT = 22;
 const FILM_COUNT_PER_STEP = 5;
 const EXSTRA_MOVIES_COUNT = 2;
 
+const AUTHORIZATION = `Basic hSna5KursSdan2j12`;
+const END_POINT = `https://12.ecmascript.pages.academy/cinemaddict`;
+
 const films = [
   {title: `Made for each other`, poster: `made-for-each-other.png`},
   {title: `Popeye meets sinbad`, poster: `popeye-meets-sinbad.png`},
@@ -126,4 +129,4 @@ const timeRange = {
 
 export {FILM_COUNT, FILM_COUNT_PER_STEP, films, descriptionText, genres, months, actors, countries,
   ageRatings, emojyes, renderPosition, extraContainersName, EXSTRA_MOVIES_COUNT, sortTypes, HTMLTagName,
-  keyboardKey, mode, userActions, updateTypes, filterTypes, routes, timeRange};
+  keyboardKey, mode, userActions, updateTypes, filterTypes, routes, timeRange, AUTHORIZATION, END_POINT};

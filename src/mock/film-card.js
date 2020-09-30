@@ -44,10 +44,10 @@ const createCommentDate = () => {
 const generateComment = () => {
   return {
     id: generateFakeId(),
-    emogi: getRandomArrayElement(emojyes),
+    emotion: getRandomArrayElement(emojyes),
     date: createCommentDate(),
-    autor: getRandomArrayElement(actors),
-    message: getRandomArrayElement(descriptionText.replace(/\r?\n/g, ``).split(`.`))
+    author: getRandomArrayElement(actors),
+    comment: getRandomArrayElement(descriptionText.replace(/\r?\n/g, ``).split(`.`))
   };
 };
 
